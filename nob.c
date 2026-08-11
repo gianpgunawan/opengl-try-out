@@ -7,9 +7,12 @@
 int add_compile_command(Nob_Cmd *cmd)
 {
     nob_cmd_append(cmd,
-            "cc",
-            "-Wall",
-            "-Wextra"
+        "cc",
+        "-Wall",
+        "-Wextra"
+    );
+    nob_cmd_append(cmd,
+        "-I:./includes"
     );
     nob_cmd_append(cmd, 
         "-o",

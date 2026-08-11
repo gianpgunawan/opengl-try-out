@@ -9,7 +9,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "thirdparty/stb_image.h"
 
-#define TEXTURE_FILE_NAME "wall.jpg"
+#define TEXTURE_FILE_NAME "./assets/wall.jpg"
 
 #define WIDTH 800
 #define HEIGHT 600
