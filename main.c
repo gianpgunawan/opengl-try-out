@@ -9,10 +9,21 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "thirdparty/stb_image.h"
 
+#define ARENA_IMPLEMENTATION
+#define MATRIX_IMPLEMENTATION
+#define MATRIX_DYN_IMPLEMENTATION
+
+#include "arena.h"
+#include "matrices/matrix.h"
+#include "matrices/matrix_dyn.h"
+
 #define TEXTURE_FILE_NAME "./assets/wall.jpg"
 
 #define WIDTH 800
 #define HEIGHT 600
+
+#define ARENA_SIZE 256 * 1024 * 1024
+Arena arena = {0};
 
 #define N 0.1f
 #define F 100.0f
@@ -144,6 +155,7 @@ int main() {
     exit(1);
 #endif
 
+    arena_init(&arena, ARENA_SIZE);
     if (!glfwInit()) return -1;
 
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Hello world", NULL, NULL);
@@ -252,18 +264,14 @@ int main() {
         "layout (location = 0) in vec4 aPos;\n"
         "layout (location = 1) in vec2 aTexCoord;\n"
 
-        "uniform mat4 mat_rotate_y;\n"
-        "uniform mat4 mat_rotate_x;\n"
-        "uniform mat4 mat_projection;\n"
-        "uniform mat4 mat_translation;\n"
-        "uniform mat4 mat_scaling;\n"
+        "uniform mat4 mvc;\n"
 
         "out vec3 color;\n"
         "out vec2 texCoord;\n"
 
         "out vec3 vNDC;\n"
         "void main() {\n"
-        "   vec4 clip = mat_projection * mat_translation * mat_rotate_x * mat_rotate_y * mat_scaling * aPos;\n"
+        "   vec4 clip = mvc * aPos;\n"
         "   gl_Position = clip;\n"
         "   vec3 ndc = clip.xyz / clip.w;\n"
         "   vNDC = ndc;\n"
@@ -293,7 +301,6 @@ int main() {
     if (!ok) {
         printf("ERRRORRRRJ\n");
         exit(1);
-        // glGetShaderInfoLog(...) and print
     }
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
@@ -307,11 +314,7 @@ int main() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    GLuint mat_rotate_y = glGetUniformLocation(shaderProgram, "mat_rotate_y");
-    GLuint mat_rotate_x = glGetUniformLocation(shaderProgram, "mat_rotate_x");
-    GLuint mat_projection_loc = glGetUniformLocation(shaderProgram, "mat_projection");
-    GLuint mat_translation_loc = glGetUniformLocation(shaderProgram, "mat_translation");
-    GLuint mat_scaling_loc = glGetUniformLocation(shaderProgram, "mat_scaling");
+    GLuint mvc_loc = glGetUniformLocation(shaderProgram, "mvc");
 
     GLuint texture_loc = glGetUniformLocation(shaderProgram, "ourTexture");
      
@@ -319,28 +322,37 @@ int main() {
     glDepthFunc(GL_LESS);
     glDepthMask(GL_TRUE);
 
-    set_translation_mat(0.0f, 0.0f, -3.0f);
-    set_scaling_mat(2.0f);
+    mat scale = mdyn_identity(&arena, 4, 4);
+    mat_mul_scalar(&scale, 50.0f, &scale);
 
+    set_translation_mat(0.0f, 0.0f, -3.0f);
+    
     while (!glfwWindowShouldClose(window)) {
         n_deg += 0.1f;
         float degree = degree_to_radian(n_deg);
         float cos_val = cos(degree);
         float sin_val = sin(degree);
 
-        const GLfloat matrix_y[] = {
-            cos_val, 0.0f, sin_val, 0.0f,
-            0.0f, 1.0f, 0.0f, 0.0f,
-            -sin_val, 0.0f, cos_val, 0.0f,
-            0.0f, 0.0f, 0.0f, 1.0f,
-        };
-
-        const GLfloat matrix_x[] = {
+        size_t checkpoint = arena.count;
+        mat rot_y = mdyn_make_mat(&arena, 4, 4, (float[]){
             1.0f, 0.0f, 0.0f, 0.0f,
             0.0f, cos_val, -sin_val, 0.0f,
             0.0f, sin_val, cos_val, 0.0f,
             0.0f, 0.0f, 0.0f, 1.0f
-        };
+        });
+        mat rot_x = mdyn_make_mat(&arena, 4, 4, (float[]){
+            cos_val, 0.0f, sin_val, 0.0f,
+            0.0f, 1.0f, 0.0f, 0.0f,
+            -sin_val, 0.0f, cos_val, 0.0f,
+            0.0f, 0.0f, 0.0f, 1.0f,
+        });
+        mat trans = mdyn_make_mat(&arena, 4, 4, MAT_TRANSLATION);
+        mat proj = mdyn_make_mat(&arena, 4, 4, MAT_PROJECTION);
+
+        mat tmp = mdyn_mul(&arena, &proj, &trans);
+        tmp = mdyn_mul(&arena, &tmp, &rot_x);
+        tmp = mdyn_mul(&arena, &tmp, &rot_y);
+        tmp = mdyn_mul(&arena, &tmp, &scale);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(shaderProgram);
@@ -348,11 +360,8 @@ int main() {
         glBindTexture(GL_TEXTURE_2D, texture);
         glBindVertexArray(VAO);
 
-        glUniformMatrix4fv(mat_rotate_y, 1, GL_TRUE, matrix_y);
-        glUniformMatrix4fv(mat_rotate_x, 1, GL_TRUE, matrix_x);
-        glUniformMatrix4fv(mat_projection_loc, 1, GL_TRUE, MAT_PROJECTION);
-        glUniformMatrix4fv(mat_translation_loc, 1, GL_TRUE, MAT_TRANSLATION);
-        glUniformMatrix4fv(mat_scaling_loc, 1, GL_TRUE, MAT_SCALING);
+        glUniformMatrix4fv(mvc_loc, 1, GL_TRUE, tmp.es);
+        arena_reset_to(&arena, checkpoint);
 
         glUniform1i(texture_loc, 0);
 
@@ -360,6 +369,7 @@ int main() {
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+
     }
 
     glfwTerminate();

@@ -12,7 +12,7 @@ int add_compile_command(Nob_Cmd *cmd)
         "-Wextra"
     );
     nob_cmd_append(cmd,
-        "-I:./includes"
+        "-I./includes"
     );
     nob_cmd_append(cmd, 
         "-o",
