@@ -204,8 +204,8 @@ void mat_slice(mat *m, size_t row1, size_t row2, size_t col1, size_t col2, mat *
     ASSERT(col2 > col1, "INVALID COL: Col 1 smaller than Col 2");
     ASSERT(out->cols = col2 - col1, "INVALID OUT MATRIX SIZE");
     ASSERT(out->rows = row2 - row1, "INVALID OUT MATRIX SIZE");
-    ASSERT(row1 >= 0 && row1 < m->rows && row2 >= 0 && row2 <= m->rows, "INVALID M MATRIX SIZE");
-    ASSERT(col1 >= 0 && col1 < m->cols && col2 >= 0 && col2 <= m->cols, "INVALID M MATRIX SIZE");
+    ASSERT(row1 < m->rows && row2 <= m->rows, "INVALID M MATRIX SIZE");
+    ASSERT(col1 < m->cols && col2 <= m->cols, "INVALID M MATRIX SIZE");
     ASSERT(out->es != NULL, "INVALID ELEMENT BUFFER");
     ASSERT(m->es != NULL, "INVALID ELEMENT BUFFER");
 

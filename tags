@@ -1,5 +1,12 @@
+ARENA_H	includes/arena.h	2
+ARENA_IMPLEMENTATION	main.c	10
+ARENA_SIZE	main.c	27
 ARRAY_GET	nob.h	2869
 ARRAY_LEN	nob.h	2868
+ASSERT	includes/assert_util.h	/^#define ASSERT(cond, message) do { \\$/
+ASSERT_UTIL_H	includes/assert_util.h	2
+Arena	includes/arena.h	12
+BOX_H	box.h	2
 CLIT	nob.h	2964
 Chain	nob.h	2944
 Chain_Begin_Opt	nob.h	2945
@@ -8,8 +15,12 @@ Chain_End_Opt	nob.h	2951
 Cmd	nob.h	2965
 Cmd_Opt	nob.h	2967
 Cmd_Redirect	nob.h	2966
+DATA_FORMAT	includes/matrices/matrix.h	8
+DATA_TYPE	includes/matrices/matrix.h	7
 Dir_Entry	nob.h	2912
 ERROR	nob.h	2872
+F	main.c	31
+FAST_BITS	thirdparty/stb_image.h	1936
 FILE_DIRECTORY	nob.h	2892
 FILE_OTHER	nob.h	2894
 FILE_REGULAR	nob.h	2891
@@ -19,15 +30,28 @@ File_Paths	nob.h	2890
 File_Type	nob.h	2895
 GO_REBUILD_URSELF	nob.h	2888
 GO_REBUILD_URSELF_PLUS	nob.h	2889
-H	main	/^žÿÿH‹…Øþÿÿ¶€(H$/
+HEIGHT	main.c	25
 INFO	nob.h	2870
 INVALID_FD	nob.h	2954
 INVALID_PROC	nob.h	2940
 Log_Handler	nob.h	2877
 Log_Level	nob.h	2874
+MATRIX_DYN_C	includes/matrices/matrix_dyn.h	2
+MATRIX_DYN_IMPLEMENTATION	main.c	12
+MATRIX_IMPLEMENTATION	main.c	11
+MAT_AT	includes/matrices/matrix_dyn.h	/^    #define MAT_AT(mat, row, col) ((mat)->es[(mat)/
+MAT_AT	includes/matrices/matrix.h	/^#define MAT_AT(mat, row, col) ((mat)->es[(mat)->co/
+MAT_H	includes/matrices/matrix.h	2
+MAT_PIPELINE_HELPER_H	includes/matrices/mat_pipeline_helper.h	2
+MAT_PIPELINE_HELPER_IMPLEMENTATION	includes/matrices/mat_pipeline_helper.h	18
+MAT_PIPELINE_HELPER_IMPLEMENTATION	main.c	13
+MAT_ROTATE_X	includes/matrices/mat_pipeline_helper.h	7
+MAT_ROTATE_Y	includes/matrices/mat_pipeline_helper.h	8
+MAT_ROTATE_Z	includes/matrices/mat_pipeline_helper.h	9
+Mat_Rotate	includes/matrices/mat_pipeline_helper.h	10
 Mmain	main.c	/^int main() {$/
 Mnob	nob.c	/^int main(int argc, char **argv)$/
-Mtmp	tmp.c	/^int main()$/
+N	main.c	30
 NANOS_PER_SEC	nob.h	3024
 NOBDEF	nob.h	114
 NOB_ARRAY_GET	nob.h	/^#define NOB_ARRAY_GET(array, index) \\$/
@@ -113,12 +137,86 @@ Nob_Walk_Func	nob.h	297
 Pipe	nob.h	2942
 Proc	nob.h	2939
 Procs	nob.h	2958
+R	main.c	32
+STBIDEF	thirdparty/stb_image.h	396
+STBIDEF	thirdparty/stb_image.h	398
+STBI_ASSERT	thirdparty/stb_image.h	/^#define STBI_ASSERT(x) assert(x)$/
+STBI_EXTERN	thirdparty/stb_image.h	607
+STBI_EXTERN	thirdparty/stb_image.h	609
+STBI_FREE	thirdparty/stb_image.h	/^#define STBI_FREE(p)              free(p)$/
+STBI_HAS_LROTL	thirdparty/stb_image.h	664
+STBI_INCLUDE_STB_IMAGE_H	thirdparty/stb_image.h	130
+STBI_MALLOC	thirdparty/stb_image.h	/^#define STBI_MALLOC(sz)           malloc(sz)$/
+STBI_MAX_DIMENSIONS	thirdparty/stb_image.h	796
+STBI_NEON	thirdparty/stb_image.h	779
+STBI_NOTUSED	thirdparty/stb_image.h	/^#define STBI_NOTUSED(v)  (void)(v)$/
+STBI_NOTUSED	thirdparty/stb_image.h	/^#define STBI_NOTUSED(v)  (void)sizeof(v)$/
+STBI_NO_BMP	thirdparty/stb_image.h	560
+STBI_NO_GIF	thirdparty/stb_image.h	569
+STBI_NO_HDR	thirdparty/stb_image.h	572
+STBI_NO_JPEG	thirdparty/stb_image.h	554
+STBI_NO_PIC	thirdparty/stb_image.h	575
+STBI_NO_PNG	thirdparty/stb_image.h	557
+STBI_NO_PNM	thirdparty/stb_image.h	578
+STBI_NO_PSD	thirdparty/stb_image.h	563
+STBI_NO_SIMD	thirdparty/stb_image.h	706
+STBI_NO_SIMD	thirdparty/stb_image.h	721
+STBI_NO_TGA	thirdparty/stb_image.h	566
+STBI_NO_ZLIB	thirdparty/stb_image.h	583
+STBI_ORDER_BGR	thirdparty/stb_image.h	898
+STBI_ORDER_RGB	thirdparty/stb_image.h	897
+STBI_REALLOC	thirdparty/stb_image.h	/^#define STBI_REALLOC(p,newsz)     realloc(p,newsz)/
+STBI_REALLOC_SIZED	thirdparty/stb_image.h	/^#define STBI_REALLOC_SIZED(p,oldsz,newsz) STBI_REA/
+STBI_SIMD_ALIGN	thirdparty/stb_image.h	/^#define STBI_SIMD_ALIGN(type, name) __declspec(ali/
+STBI_SIMD_ALIGN	thirdparty/stb_image.h	/^#define STBI_SIMD_ALIGN(type, name) type name __at/
+STBI_SIMD_ALIGN	thirdparty/stb_image.h	/^#define STBI_SIMD_ALIGN(type, name) __declspec(ali/
+STBI_SIMD_ALIGN	thirdparty/stb_image.h	/^#define STBI_SIMD_ALIGN(type, name) type name __at/
+STBI_SIMD_ALIGN	thirdparty/stb_image.h	/^#define STBI_SIMD_ALIGN(type, name) type name$/
+STBI_SSE2	thirdparty/stb_image.h	725
+STBI_THREAD_LOCAL	thirdparty/stb_image.h	625
+STBI_THREAD_LOCAL	thirdparty/stb_image.h	627
+STBI_THREAD_LOCAL	thirdparty/stb_image.h	629
+STBI_THREAD_LOCAL	thirdparty/stb_image.h	631
+STBI_THREAD_LOCAL	thirdparty/stb_image.h	636
+STBI_VERSION	thirdparty/stb_image.h	374
+STBI__BYTECAST	thirdparty/stb_image.h	/^#define STBI__BYTECAST(x)  ((stbi_uc) ((x) & 255))/
+STBI__CASE	thirdparty/stb_image.h	/^      #define STBI__CASE(a,b)   case STBI__COMBO(a/
+STBI__CASE	thirdparty/stb_image.h	1792
+STBI__CASE	thirdparty/stb_image.h	/^      #define STBI__CASE(a,b)   case STBI__COMBO(a/
+STBI__CASE	thirdparty/stb_image.h	1849
+STBI__COMBO	thirdparty/stb_image.h	/^      #define STBI__COMBO(a,b)  ((a)*8+(b))$/
+STBI__COMBO	thirdparty/stb_image.h	/^      #define STBI__COMBO(a,b)  ((a)*8+(b))$/
+STBI__F_avg	thirdparty/stb_image.h	4642
+STBI__F_avg_first	thirdparty/stb_image.h	4645
+STBI__F_none	thirdparty/stb_image.h	4639
+STBI__F_paeth	thirdparty/stb_image.h	4643
+STBI__F_sub	thirdparty/stb_image.h	4640
+STBI__F_up	thirdparty/stb_image.h	4641
+STBI__HDR_BUFLEN	thirdparty/stb_image.h	7108
+STBI__IDCT_1D	thirdparty/stb_image.h	/^#define STBI__IDCT_1D(s0,s1,s2,s3,s4,s5,s6,s7) \\$/
+STBI__MARKER_none	thirdparty/stb_image.h	2915
+STBI__PNG_TYPE	thirdparty/stb_image.h	/^#define STBI__PNG_TYPE(a,b,c,d)  (((unsigned) (a) /
+STBI__RESTART	thirdparty/stb_image.h	/^#define STBI__RESTART(x)     ((x) >= 0xd0 && (x) </
+STBI__SCAN_header	thirdparty/stb_image.h	1594
+STBI__SCAN_load	thirdparty/stb_image.h	1592
+STBI__SCAN_type	thirdparty/stb_image.h	1593
+STBI__X64_TARGET	thirdparty/stb_image.h	693
+STBI__X86_TARGET	thirdparty/stb_image.h	695
+STBI__ZFAST_BITS	thirdparty/stb_image.h	4091
+STBI__ZFAST_MASK	thirdparty/stb_image.h	4092
+STBI__ZNSYMS	thirdparty/stb_image.h	4093
+STBI_default	thirdparty/stb_image.h	378
+STBI_grey	thirdparty/stb_image.h	380
+STBI_grey_alpha	thirdparty/stb_image.h	381
+STBI_rgb	thirdparty/stb_image.h	382
+STBI_rgb_alpha	thirdparty/stb_image.h	383
 STB_IMAGE_IMPLEMENTATION	main.c	9
 SV_Arg	nob.h	/^#define SV_Arg(sv) (int) (sv).count, (sv).data$/
 SV_Fmt	nob.h	942
 String_Builder	nob.h	2929
 String_View	nob.h	3002
-TEXTURE_FILE_NAME	main.c	12
+T	main.c	33
+TEXTURE_FILE_NAME	main.c	22
 TODO	nob.h	2865
 UNREACHABLE	nob.h	2866
 UNUSED	nob.h	2867
@@ -126,21 +224,42 @@ WALK_CONT	nob.h	2900
 WALK_SKIP	nob.h	2901
 WALK_STOP	nob.h	2902
 WARNING	nob.h	2871
+WIDTH	main.c	24
 WIN32_LEAN_AND_MEAN	nob.h	158
 Walk_Action	nob.h	2903
 Walk_Dir_Opt	nob.h	2906
 Walk_Entry	nob.h	2904
 Walk_Func	nob.h	2905
+YCbCr_to_RGB_kernel	thirdparty/stb_image.h	/^   void (*YCbCr_to_RGB_kernel)(stbi_uc *out, const/
 _CRT_SECURE_NO_WARNINGS	nob.h	105
 _IMM_	nob.h	161
 _WINCON_	nob.h	162
 _WINGDI_	nob.h	160
 _WINUSER_	nob.h	159
+__declspec	thirdparty/stb_image.h	/^STBI_EXTERN __declspec(dllimport) int __stdcall Mu/
 action	nob.h	287
+add_compile_command	nob.c	/^int add_compile_command(Nob_Cmd *cmd)$/
+all_a	thirdparty/stb_image.h	5418
+app14_color_transform	thirdparty/stb_image.h	1991
+arena	main.c	28
+arena_alloc	includes/arena.h	/^void *arena_alloc(Arena *arena, size_t n)$/
+arena_free	includes/arena.h	/^void arena_free(Arena *arena)$/
+arena_init	includes/arena.h	/^int arena_init(Arena *arena, size_t n)$/
+arena_init_from_block	includes/arena.h	/^int arena_init_from_block(Arena *arena, void *bloc/
+arena_reset	includes/arena.h	/^void arena_reset(Arena *arena)$/
+arena_reset_to	includes/arena.h	/^void arena_reset_to(Arena *arena, size_t checkpoin/
 async	nob.h	528
 async	nob.h	601
-buffer	main.c	13
+background	thirdparty/stb_image.h	6564
+bgindex	thirdparty/stb_image.h	6566
+bits_per_channel	thirdparty/stb_image.h	903
+bpp	thirdparty/stb_image.h	5417
+buffer	main.c	35
+buffer_start	thirdparty/stb_image.h	815
+buflen	thirdparty/stb_image.h	814
+callback_already_read	thirdparty/stb_image.h	816
 cancer_log_handler	nob.h	2882
+capacity	includes/arena.h	9
 capacity	nob.h	247
 capacity	nob.h	429
 capacity	nob.h	498
@@ -151,6 +270,8 @@ chain_cmd	nob.h	2949
 chain_cmd_opt	nob.h	2950
 chain_end	nob.h	2952
 chain_end_opt	nob.h	2953
+channel	thirdparty/stb_image.h	6364
+channel_order	thirdparty/stb_image.h	905
 cmd	nob.h	582
 cmd_append	nob.h	2971
 cmd_extend	nob.h	2972
@@ -166,9 +287,19 @@ cmd_run_sync	nob.h	2978
 cmd_run_sync_and_reset	nob.h	2979
 cmd_run_sync_redirect	nob.h	2980
 cmd_run_sync_redirect_and_reset	nob.h	2981
-compile	nob.c	/^int compile(Nob_Cmd *cmd)$/
+code	thirdparty/stb_image.h	1942
+code_bits	thirdparty/stb_image.h	1980
+code_buffer	thirdparty/stb_image.h	1979
+code_buffer	thirdparty/stb_image.h	4182
+codes	thirdparty/stb_image.h	6569
+coeff	thirdparty/stb_image.h	1975
+coeff_h	thirdparty/stb_image.h	1976
+coeff_w	thirdparty/stb_image.h	1976
+color_table	thirdparty/stb_image.h	6570
+cols	includes/matrices/matrix.h	13
 copy_directory_recursively	nob.h	2898
 copy_file	nob.h	2897
+count	includes/arena.h	10
 count	nob.h	246
 count	nob.h	428
 count	nob.h	497
@@ -176,6 +307,8 @@ count	nob.h	521
 count	nob.h	904
 count	nob.h	1309
 count	nob.h	1361
+cur_x	thirdparty/stb_image.h	6575
+cur_y	thirdparty/stb_image.h	6575
 da_append	nob.h	2917
 da_append_many	nob.h	2919
 da_first	nob.h	2923
@@ -186,21 +319,81 @@ da_pop	nob.h	2924
 da_remove_unordered	nob.h	2925
 da_reserve	nob.h	2921
 da_resize	nob.h	2920
+data	includes/arena.h	11
 data	nob.h	284
 data	nob.h	301
 data	nob.h	905
+data	thirdparty/stb_image.h	1972
+dc_pred	thirdparty/stb_image.h	1969
+dct_bfly32o	thirdparty/stb_image.h	/^   #define dct_bfly32o(out0, out1, a,b,bias,s) \\$/
+dct_bfly32o	thirdparty/stb_image.h	2699
+dct_bfly32o	thirdparty/stb_image.h	/^#define dct_bfly32o(out0,out1, a,b,shiftop,s) \\$/
+dct_bfly32o	thirdparty/stb_image.h	2909
+dct_const	thirdparty/stb_image.h	/^   #define dct_const(x,y)  _mm_setr_epi16((x),(y),/
+dct_const	thirdparty/stb_image.h	2694
+dct_interleave16	thirdparty/stb_image.h	/^   #define dct_interleave16(a, b) \\$/
+dct_interleave16	thirdparty/stb_image.h	2701
+dct_interleave8	thirdparty/stb_image.h	/^   #define dct_interleave8(a, b) \\$/
+dct_interleave8	thirdparty/stb_image.h	2700
+dct_long_mac	thirdparty/stb_image.h	/^#define dct_long_mac(out, acc, inq, coeff) \\$/
+dct_long_mac	thirdparty/stb_image.h	2905
+dct_long_mul	thirdparty/stb_image.h	/^#define dct_long_mul(out, inq, coeff) \\$/
+dct_long_mul	thirdparty/stb_image.h	2904
+dct_pass	thirdparty/stb_image.h	/^   #define dct_pass(bias,shift) \\$/
+dct_pass	thirdparty/stb_image.h	2702
+dct_pass	thirdparty/stb_image.h	/^#define dct_pass(shiftop, shift) \\$/
+dct_pass	thirdparty/stb_image.h	2910
+dct_rot	thirdparty/stb_image.h	/^   #define dct_rot(out0,out1, x,y,c0,c1) \\$/
+dct_rot	thirdparty/stb_image.h	2695
+dct_trn16	thirdparty/stb_image.h	/^#define dct_trn16(x, y) { int16x8x2_t t = vtrnq_s1/
+dct_trn16	thirdparty/stb_image.h	2841
+dct_trn32	thirdparty/stb_image.h	/^#define dct_trn32(x, y) { int32x4x2_t t = vtrnq_s3/
+dct_trn32	thirdparty/stb_image.h	2842
+dct_trn64	thirdparty/stb_image.h	/^#define dct_trn64(x, y) { int16x8_t x0 = x; int16x/
+dct_trn64	thirdparty/stb_image.h	2843
+dct_trn8_16	thirdparty/stb_image.h	/^#define dct_trn8_16(x, y) { uint16x4x2_t t = vtrn_/
+dct_trn8_16	thirdparty/stb_image.h	2900
+dct_trn8_32	thirdparty/stb_image.h	/^#define dct_trn8_32(x, y) { uint32x2x2_t t = vtrn_/
+dct_trn8_32	thirdparty/stb_image.h	2901
+dct_trn8_8	thirdparty/stb_image.h	/^#define dct_trn8_8(x, y) { uint8x8x2_t t = vtrn_u8/
+dct_trn8_8	thirdparty/stb_image.h	2899
+dct_wadd	thirdparty/stb_image.h	/^   #define dct_wadd(out, a, b) \\$/
+dct_wadd	thirdparty/stb_image.h	2697
+dct_wadd	thirdparty/stb_image.h	/^#define dct_wadd(out, a, b) \\$/
+dct_wadd	thirdparty/stb_image.h	2907
+dct_widen	thirdparty/stb_image.h	/^   #define dct_widen(out, in) \\$/
+dct_widen	thirdparty/stb_image.h	2696
+dct_widen	thirdparty/stb_image.h	/^#define dct_widen(out, inq) \\$/
+dct_widen	thirdparty/stb_image.h	2906
+dct_wsub	thirdparty/stb_image.h	/^   #define dct_wsub(out, a, b) \\$/
+dct_wsub	thirdparty/stb_image.h	2698
+dct_wsub	thirdparty/stb_image.h	/^#define dct_wsub(out, a, b) \\$/
+dct_wsub	thirdparty/stb_image.h	2908
 default_log_handler	nob.h	2881
 degree_to_radian	main.c	/^static inline float degree_to_radian(float degree)/
+delay	thirdparty/stb_image.h	6577
 delete_file	nob.h	2911
+delta	thirdparty/stb_image.h	1946
+depth	thirdparty/stb_image.h	4634
+dequant	thirdparty/stb_image.h	1954
 dir_entry_close	nob.h	2915
 dir_entry_next	nob.h	2914
 dir_entry_open	nob.h	2913
 dont_reset	nob.h	532
 dont_reset	nob.h	595
+eflags	thirdparty/stb_image.h	6566
+eob_run	thirdparty/stb_image.h	1989
+eof	thirdparty/stb_image.h	/^   int      (*eof)   (void *user);                /
 err2out	nob.h	584
 err2out	nob.h	594
 error	nob.h	312
+es	includes/matrices/matrix.h	14
+expanded	thirdparty/stb_image.h	4633
+extra_read	thirdparty/stb_image.h	5419
 fa_append	nob.h	2927
+fast	thirdparty/stb_image.h	1940
+fast	thirdparty/stb_image.h	4099
+fast_ac	thirdparty/stb_image.h	1955
 fd_close	nob.h	2957
 fd_open_for_read	nob.h	2955
 fd_open_for_write	nob.h	2956
@@ -209,22 +402,109 @@ fdin	nob.h	580
 fdin	nob.h	646
 fdout	nob.h	647
 file_exists	nob.h	2995
+first	thirdparty/stb_image.h	6556
+first_row_filter	thirdparty/stb_image.h	4648
+firstcode	thirdparty/stb_image.h	4100
+firstsymbol	thirdparty/stb_image.h	4102
+flags	thirdparty/stb_image.h	6566
 get_current_dir_temp	nob.h	2996
 get_file_type	nob.h	2910
 get_log_handler	nob.h	2879
+get_randf	includes/matrices/matrix_dyn.h	/^static inline float get_randf()$/
+h	thirdparty/stb_image.h	1966
+h	thirdparty/stb_image.h	6562
+h2	thirdparty/stb_image.h	1971
+ha	thirdparty/stb_image.h	1968
+hd	thirdparty/stb_image.h	1968
+history	thirdparty/stb_image.h	6565
+hit_zeof_once	thirdparty/stb_image.h	4181
+hs	thirdparty/stb_image.h	3852
+hsz	thirdparty/stb_image.h	5417
+huff_ac	thirdparty/stb_image.h	1953
+huff_dc	thirdparty/stb_image.h	1952
+id	thirdparty/stb_image.h	1965
+idata	thirdparty/stb_image.h	4633
+idct_block_kernel	thirdparty/stb_image.h	/^   void (*idct_block_kernel)(stbi_uc *out, int out/
+img_buffer	thirdparty/stb_image.h	818
+img_buffer_end	thirdparty/stb_image.h	818
+img_buffer_original	thirdparty/stb_image.h	819
+img_buffer_original_end	thirdparty/stb_image.h	819
+img_comp	thirdparty/stb_image.h	1977
+img_h_max	thirdparty/stb_image.h	1958
+img_mcu_h	thirdparty/stb_image.h	1960
+img_mcu_w	thirdparty/stb_image.h	1960
+img_mcu_x	thirdparty/stb_image.h	1959
+img_mcu_y	thirdparty/stb_image.h	1959
+img_n	thirdparty/stb_image.h	808
+img_out_n	thirdparty/stb_image.h	808
+img_v_max	thirdparty/stb_image.h	1958
+img_x	thirdparty/stb_image.h	807
+img_y	thirdparty/stb_image.h	807
+io	thirdparty/stb_image.h	810
+io_user_data	thirdparty/stb_image.h	811
 items	nob.h	245
 items	nob.h	427
 items	nob.h	496
 items	nob.h	520
 items	nob.h	1310
 items	nob.h	1362
+jfif	thirdparty/stb_image.h	1990
+key_cb	main.c	/^static void key_cb(GLFWwindow* window, int key, in/
+length	thirdparty/stb_image.h	4609
 level	nob.h	282
+lflags	thirdparty/stb_image.h	6572
+line0	thirdparty/stb_image.h	3851
+line1	thirdparty/stb_image.h	3851
+line_size	thirdparty/stb_image.h	6576
+linebuf	thirdparty/stb_image.h	1974
+load_jpeg_image	thirdparty/stb_image.h	/^static stbi_uc *load_jpeg_image(stbi__jpeg *z, int/
 log_handler	nob.h	2876
+lpal	thirdparty/stb_image.h	6568
+ma	thirdparty/stb_image.h	5418
+make_float_array	includes/matrices/matrix_dyn.h	/^float *make_float_array(Arena *arena,int count, ../
+marker	thirdparty/stb_image.h	1981
+mat	includes/matrices/matrix.h	15
+mat_add	includes/matrices/matrix.h	/^int mat_add(mat *m1, mat *m2, mat *out)$/
+mat_fill	includes/matrices/matrix.h	/^void mat_fill(mat *m, float val)$/
+mat_fill_func	includes/matrices/matrix.h	/^void mat_fill_func(mat *m, float (*func)())$/
+mat_fprintf	includes/matrices/matrix.h	/^void mat_fprintf(mat *mat, FILE *fp)$/
+mat_hadamard	includes/matrices/matrix.h	/^int mat_hadamard(mat *m1, mat *m2, mat *out)$/
+mat_init	includes/matrices/matrix.h	/^int mat_init(mat *mat, size_t rows, size_t cols, D/
+mat_map	includes/matrices/matrix.h	/^void mat_map(mat *m1, float (*fn)(float), mat *out/
+mat_mul	includes/matrices/matrix.h	/^int mat_mul(mat *m1, mat *m2, mat *out)$/
+mat_mul_scalar	includes/matrices/matrix.h	/^void mat_mul_scalar(mat *m, float val, mat *out)$/
+mat_print	includes/matrices/matrix.h	/^void mat_print(mat *mat)$/
+mat_projection	includes/matrices/mat_pipeline_helper.h	/^mat mat_projection(Arena *arena, float f, float n,/
+mat_rotate	includes/matrices/mat_pipeline_helper.h	/^mat mat_rotate(Arena *arena, float degree, Mat_Rot/
+mat_scaling	includes/matrices/mat_pipeline_helper.h	/^mat mat_scaling(Arena *arena, float n)$/
+mat_slice	includes/matrices/matrix.h	/^void mat_slice(mat *m, size_t row1, size_t row2, s/
+mat_sub	includes/matrices/matrix.h	/^int mat_sub(mat *m1, mat *m2, mat *out)$/
+mat_translation	includes/matrices/mat_pipeline_helper.h	/^mat mat_translation(Arena *arena, float x, float y/
+mat_transpose	includes/matrices/matrix.h	/^void mat_transpose(mat *m, mat *out)$/
 max_procs	nob.h	530
 max_procs	nob.h	602
+max_x	thirdparty/stb_image.h	6574
+max_y	thirdparty/stb_image.h	6574
+maxcode	thirdparty/stb_image.h	1945
+maxcode	thirdparty/stb_image.h	4101
+mb	thirdparty/stb_image.h	5418
+mdyn_add	includes/matrices/matrix_dyn.h	/^mat mdyn_add(Arena *arena, mat *a, mat *b)$/
+mdyn_hadamard	includes/matrices/matrix_dyn.h	/^mat mdyn_hadamard(Arena *arena, mat *a, mat *b)$/
+mdyn_identity	includes/matrices/matrix_dyn.h	/^mat mdyn_identity(Arena *arena, size_t rows, size_/
+mdyn_make_mat	includes/matrices/matrix_dyn.h	/^mat mdyn_make_mat(Arena *arena, size_t row, size_t/
+mdyn_make_out	includes/matrices/matrix_dyn.h	/^mat mdyn_make_out(Arena *arena, mat *m1, mat *m2)$/
+mdyn_make_randomly_filled_mat	includes/matrices/matrix_dyn.h	/^mat mdyn_make_randomly_filled_mat(Arena *arena, si/
+mdyn_make_zero_filled_mat	includes/matrices/matrix_dyn.h	/^mat mdyn_make_zero_filled_mat(Arena *arena, size_t/
+mdyn_mul	includes/matrices/matrix_dyn.h	/^mat mdyn_mul(Arena *arena, mat *a, mat *b)$/
+mdyn_slice	includes/matrices/matrix_dyn.h	/^mat mdyn_slice(Arena *arena, mat *a, size_t row1, /
+mdyn_sub	includes/matrices/matrix_dyn.h	/^mat mdyn_sub(Arena *arena, mat *a, mat *b)$/
+mdyn_transpose	includes/matrices/matrix_dyn.h	/^mat mdyn_transpose(Arena *arena, mat *a)$/
+mg	thirdparty/stb_image.h	5418
 minimal_log_level	nob.h	2875
 mkdir_if_not_exists	nob.h	2896
-n_channels	main.c	14
+mr	thirdparty/stb_image.h	5418
+n_channels	main.c	36
+n_deg	main.c	37
 name	nob.h	311
 nanos_since_unspecified_epoch	nob.h	3023
 needs_rebuild	nob.h	2993
@@ -370,23 +650,48 @@ nob_walk_dir	nob.h	/^#define nob_walk_dir(root, func, ...) nob_walk_dir/
 nob_walk_dir_opt	nob.h	/^NOBDEF bool nob_walk_dir_opt(const char *root, Nob/
 nob_win32_error_message	nob.h	/^NOBDEF char *nob_win32_error_message(DWORD err) {$/
 nob_write_entire_file	nob.h	/^NOBDEF bool nob_write_entire_file(const char *path/
+nomore	thirdparty/stb_image.h	1982
 nprocs	nob.h	3022
 null_log_handler	nob.h	2880
+num_bits	thirdparty/stb_image.h	4180
+num_channels	thirdparty/stb_image.h	904
+offset	thirdparty/stb_image.h	5417
+order	thirdparty/stb_image.h	1994
+out	thirdparty/stb_image.h	4633
+out	thirdparty/stb_image.h	6563
+pal	thirdparty/stb_image.h	6567
+parse	thirdparty/stb_image.h	6571
 path	nob.h	278
 path_name	nob.h	2990
 pipe_create	nob.h	2943
 posix_dir	nob.h	320
 posix_ent	nob.h	321
 post_order	nob.h	303
+prefix	thirdparty/stb_image.h	6555
 proc_wait	nob.h	2959
 procs_append_with_flush	nob.h	2962
 procs_flush	nob.h	2963
 procs_wait	nob.h	2960
 procs_wait_and_reset	nob.h	2961
+progressive	thirdparty/stb_image.h	1984
+ratio	thirdparty/stb_image.h	6566
+raw_coeff	thirdparty/stb_image.h	1973
+raw_data	thirdparty/stb_image.h	1973
 read	nob.h	489
+read	thirdparty/stb_image.h	/^   int      (*read)  (void *user,char *data,int si/
 read_entire_dir	nob.h	2899
 read_entire_file	nob.h	2930
+read_from_callbacks	thirdparty/stb_image.h	813
+resample	thirdparty/stb_image.h	3850
+resample_row_1	thirdparty/stb_image.h	/^static stbi_uc *resample_row_1(stbi_uc *out, stbi_/
+resample_row_func	thirdparty/stb_image.h	3451
+resample_row_hv_2_kernel	thirdparty/stb_image.h	/^   stbi_uc *(*resample_row_hv_2_kernel)(stbi_uc *o/
+restart_interval	thirdparty/stb_image.h	1995
 return_defer	nob.h	2916
+rgb	thirdparty/stb_image.h	1992
+rows	includes/matrices/matrix.h	12
+s	thirdparty/stb_image.h	1951
+s	thirdparty/stb_image.h	4632
 sb_append	nob.h	2936
 sb_append_buf	nob.h	2932
 sb_append_cstr	nob.h	2934
@@ -396,16 +701,323 @@ sb_appendf	nob.h	2931
 sb_free	nob.h	2938
 sb_pad_align	nob.h	2937
 sb_to_sv	nob.h	3020
+scan_n	thirdparty/stb_image.h	1994
 set_current_dir	nob.h	2997
 set_log_handler	nob.h	2878
 shift	nob.h	2886
 shift_args	nob.h	2887
+size	thirdparty/stb_image.h	1944
+size	thirdparty/stb_image.h	4103
+size	thirdparty/stb_image.h	6364
+skip	thirdparty/stb_image.h	/^   void     (*skip)  (void *user,int n);          /
+spec_end	thirdparty/stb_image.h	1986
+spec_start	thirdparty/stb_image.h	1985
+start_x	thirdparty/stb_image.h	6573
+start_y	thirdparty/stb_image.h	6573
+stbi__DNL	thirdparty/stb_image.h	/^#define stbi__DNL(x)         ((x) == 0xdc)$/
+stbi__EOI	thirdparty/stb_image.h	/^#define stbi__EOI(x)         ((x) == 0xd9)$/
+stbi__SOF	thirdparty/stb_image.h	/^#define stbi__SOF(x)         ((x) == 0xc0 || (x) =/
+stbi__SOF_progressive	thirdparty/stb_image.h	/^#define stbi__SOF_progressive(x)   ((x) == 0xc2)$/
+stbi__SOI	thirdparty/stb_image.h	/^#define stbi__SOI(x)         ((x) == 0xd8)$/
+stbi__SOS	thirdparty/stb_image.h	/^#define stbi__SOS(x)         ((x) == 0xda)$/
+stbi__YCbCr_to_RGB_row	thirdparty/stb_image.h	/^static void stbi__YCbCr_to_RGB_row(stbi_uc *out, c/
+stbi__YCbCr_to_RGB_simd	thirdparty/stb_image.h	/^static void stbi__YCbCr_to_RGB_simd(stbi_uc *out, /
+stbi__addints_valid	thirdparty/stb_image.h	/^static int stbi__addints_valid(int a, int b)$/
+stbi__addsizes_valid	thirdparty/stb_image.h	/^static int stbi__addsizes_valid(int a, int b)$/
+stbi__at_eof	thirdparty/stb_image.h	/^stbi_inline static int stbi__at_eof(stbi__context /
+stbi__bit_reverse	thirdparty/stb_image.h	/^stbi_inline static int stbi__bit_reverse(int v, in/
+stbi__bitcount	thirdparty/stb_image.h	/^static int stbi__bitcount(unsigned int a)$/
+stbi__bitreverse16	thirdparty/stb_image.h	/^stbi_inline static int stbi__bitreverse16(int n)$/
+stbi__blinn_8x8	thirdparty/stb_image.h	/^static stbi_uc stbi__blinn_8x8(stbi_uc x, stbi_uc /
+stbi__bmask	thirdparty/stb_image.h	2094
+stbi__bmp_data	thirdparty/stb_image.h	5420
+stbi__bmp_info	thirdparty/stb_image.h	/^static int stbi__bmp_info(stbi__context *s, int *x/
+stbi__bmp_load	thirdparty/stb_image.h	/^static void *stbi__bmp_load(stbi__context *s, int /
+stbi__bmp_parse_header	thirdparty/stb_image.h	/^static void *stbi__bmp_parse_header(stbi__context /
+stbi__bmp_set_mask_defaults	thirdparty/stb_image.h	/^static int stbi__bmp_set_mask_defaults(stbi__bmp_d/
+stbi__bmp_test	thirdparty/stb_image.h	/^static int stbi__bmp_test(stbi__context *s)$/
+stbi__bmp_test_raw	thirdparty/stb_image.h	/^static int stbi__bmp_test_raw(stbi__context *s)$/
+stbi__build_fast_ac	thirdparty/stb_image.h	/^static void stbi__build_fast_ac(stbi__int16 *fast_/
+stbi__build_huffman	thirdparty/stb_image.h	/^static int stbi__build_huffman(stbi__huffman *h, i/
+stbi__check_png_header	thirdparty/stb_image.h	/^static int stbi__check_png_header(stbi__context *s/
+stbi__clamp	thirdparty/stb_image.h	/^stbi_inline static stbi_uc stbi__clamp(int x)$/
+stbi__cleanup_jpeg	thirdparty/stb_image.h	/^static void stbi__cleanup_jpeg(stbi__jpeg *j)$/
+stbi__compute_huffman_codes	thirdparty/stb_image.h	/^static int stbi__compute_huffman_codes(stbi__zbuf /
+stbi__compute_transparency	thirdparty/stb_image.h	/^static int stbi__compute_transparency(stbi__png *z/
+stbi__compute_transparency16	thirdparty/stb_image.h	/^static int stbi__compute_transparency16(stbi__png /
+stbi__compute_y	thirdparty/stb_image.h	/^static stbi_uc stbi__compute_y(int r, int g, int b/
+stbi__compute_y_16	thirdparty/stb_image.h	/^static stbi__uint16 stbi__compute_y_16(int r, int /
+stbi__context	thirdparty/stb_image.h	820
+stbi__convert_16_to_8	thirdparty/stb_image.h	/^static stbi_uc *stbi__convert_16_to_8(stbi__uint16/
+stbi__convert_8_to_16	thirdparty/stb_image.h	/^static stbi__uint16 *stbi__convert_8_to_16(stbi_uc/
+stbi__convert_format	thirdparty/stb_image.h	/^static unsigned char *stbi__convert_format(unsigne/
+stbi__convert_format16	thirdparty/stb_image.h	/^static stbi__uint16 *stbi__convert_format16(stbi__/
+stbi__copyval	thirdparty/stb_image.h	/^static void stbi__copyval(int channel,stbi_uc *des/
+stbi__cpuid3	thirdparty/stb_image.h	/^static int stbi__cpuid3(void)$/
+stbi__cpuid3	thirdparty/stb_image.h	/^static int stbi__cpuid3(void)$/
+stbi__create_png_alpha_expand8	thirdparty/stb_image.h	/^static void stbi__create_png_alpha_expand8(stbi_uc/
+stbi__create_png_image	thirdparty/stb_image.h	/^static int stbi__create_png_image(stbi__png *a, st/
+stbi__create_png_image_raw	thirdparty/stb_image.h	/^static int stbi__create_png_image_raw(stbi__png *a/
+stbi__de_iphone	thirdparty/stb_image.h	/^static void stbi__de_iphone(stbi__png *z)$/
+stbi__de_iphone_flag	thirdparty/stb_image.h	5008
+stbi__de_iphone_flag	thirdparty/stb_image.h	5028
+stbi__de_iphone_flag_global	thirdparty/stb_image.h	4994
+stbi__de_iphone_flag_local	thirdparty/stb_image.h	5011
+stbi__de_iphone_flag_set	thirdparty/stb_image.h	5011
+stbi__decode_jpeg_header	thirdparty/stb_image.h	/^static int stbi__decode_jpeg_header(stbi__jpeg *z,/
+stbi__decode_jpeg_image	thirdparty/stb_image.h	/^static int stbi__decode_jpeg_image(stbi__jpeg *j)$/
+stbi__depth_scale_table	thirdparty/stb_image.h	4670
+stbi__div16	thirdparty/stb_image.h	/^#define stbi__div16(x) ((stbi_uc) ((x) >> 4))$/
+stbi__div4	thirdparty/stb_image.h	/^#define stbi__div4(x) ((stbi_uc) ((x) >> 2))$/
+stbi__do_png	thirdparty/stb_image.h	/^static void *stbi__do_png(stbi__png *p, int *x, in/
+stbi__do_zlib	thirdparty/stb_image.h	/^static int stbi__do_zlib(stbi__zbuf *a, char *obuf/
+stbi__err	thirdparty/stb_image.h	/^static int stbi__err(const char *str)$/
+stbi__err	thirdparty/stb_image.h	/^   #define stbi__err(x,y)  0$/
+stbi__err	thirdparty/stb_image.h	/^   #define stbi__err(x,y)  stbi__err(y)$/
+stbi__err	thirdparty/stb_image.h	/^   #define stbi__err(x,y)  stbi__err(x)$/
+stbi__errpf	thirdparty/stb_image.h	/^#define stbi__errpf(x,y)   ((float *)(size_t) (stb/
+stbi__errpuc	thirdparty/stb_image.h	/^#define stbi__errpuc(x,y)  ((unsigned char *)(size/
+stbi__expand_png_palette	thirdparty/stb_image.h	/^static int stbi__expand_png_palette(stbi__png *a, /
+stbi__extend_receive	thirdparty/stb_image.h	/^stbi_inline static int stbi__extend_receive(stbi__/
+stbi__f2f	thirdparty/stb_image.h	/^#define stbi__f2f(x)  ((int) (((x) * 4096 + 0.5)))/
+stbi__fill_bits	thirdparty/stb_image.h	/^static void stbi__fill_bits(stbi__zbuf *z)$/
+stbi__float2fixed	thirdparty/stb_image.h	/^#define stbi__float2fixed(x)  (((int) ((x) * 4096./
+stbi__float2int	thirdparty/stb_image.h	/^#define stbi__float2int(x)   ((int) (x))$/
+stbi__float_postprocess	thirdparty/stb_image.h	/^static void stbi__float_postprocess(float *result,/
+stbi__fopen	thirdparty/stb_image.h	/^static FILE *stbi__fopen(char const *filename, cha/
+stbi__free_jpeg_components	thirdparty/stb_image.h	/^static int stbi__free_jpeg_components(stbi__jpeg */
+stbi__fsh	thirdparty/stb_image.h	/^#define stbi__fsh(x)  ((x) * 4096)$/
+stbi__g_failure_reason	thirdparty/stb_image.h	970
+stbi__get16be	thirdparty/stb_image.h	/^static int stbi__get16be(stbi__context *s)$/
+stbi__get16le	thirdparty/stb_image.h	/^static int stbi__get16le(stbi__context *s)$/
+stbi__get32be	thirdparty/stb_image.h	/^static stbi__uint32 stbi__get32be(stbi__context *s/
+stbi__get32le	thirdparty/stb_image.h	/^static stbi__uint32 stbi__get32le(stbi__context *s/
+stbi__get8	thirdparty/stb_image.h	/^stbi_inline static stbi_uc stbi__get8(stbi__contex/
+stbi__get_chunk_header	thirdparty/stb_image.h	/^static stbi__pngchunk stbi__get_chunk_header(stbi_/
+stbi__get_marker	thirdparty/stb_image.h	/^static stbi_uc stbi__get_marker(stbi__jpeg *j)$/
+stbi__getn	thirdparty/stb_image.h	/^static int stbi__getn(stbi__context *s, stbi_uc *b/
+stbi__gif	thirdparty/stb_image.h	6578
+stbi__gif_header	thirdparty/stb_image.h	/^static int stbi__gif_header(stbi__context *s, stbi/
+stbi__gif_info	thirdparty/stb_image.h	/^static int stbi__gif_info(stbi__context *s, int *x/
+stbi__gif_info_raw	thirdparty/stb_image.h	/^static int stbi__gif_info_raw(stbi__context *s, in/
+stbi__gif_load	thirdparty/stb_image.h	/^static void *stbi__gif_load(stbi__context *s, int /
+stbi__gif_load_next	thirdparty/stb_image.h	/^static stbi_uc *stbi__gif_load_next(stbi__context /
+stbi__gif_lzw	thirdparty/stb_image.h	6558
+stbi__gif_parse_colortable	thirdparty/stb_image.h	/^static void stbi__gif_parse_colortable(stbi__conte/
+stbi__gif_test	thirdparty/stb_image.h	/^static int stbi__gif_test(stbi__context *s)$/
+stbi__gif_test_raw	thirdparty/stb_image.h	/^static int stbi__gif_test_raw(stbi__context *s)$/
+stbi__grow_buffer_unsafe	thirdparty/stb_image.h	/^static void stbi__grow_buffer_unsafe(stbi__jpeg *j/
+stbi__h2l_gamma_i	thirdparty/stb_image.h	1579
+stbi__hdr_convert	thirdparty/stb_image.h	/^static void stbi__hdr_convert(float *output, stbi_/
+stbi__hdr_gettoken	thirdparty/stb_image.h	/^static char *stbi__hdr_gettoken(stbi__context *z, /
+stbi__hdr_info	thirdparty/stb_image.h	/^static int stbi__hdr_info(stbi__context *s, int *x/
+stbi__hdr_load	thirdparty/stb_image.h	/^static float *stbi__hdr_load(stbi__context *s, int/
+stbi__hdr_test	thirdparty/stb_image.h	/^static int stbi__hdr_test(stbi__context* s)$/
+stbi__hdr_test_core	thirdparty/stb_image.h	/^static int stbi__hdr_test_core(stbi__context *s, c/
+stbi__hdr_to_ldr	thirdparty/stb_image.h	/^static stbi_uc *stbi__hdr_to_ldr(float   *data, in/
+stbi__high_bit	thirdparty/stb_image.h	/^static int stbi__high_bit(unsigned int z)$/
+stbi__huffman	thirdparty/stb_image.h	1947
+stbi__idct_block	thirdparty/stb_image.h	/^static void stbi__idct_block(stbi_uc *out, int out/
+stbi__idct_simd	thirdparty/stb_image.h	/^static void stbi__idct_simd(stbi_uc *out, int out_/
+stbi__idct_simd	thirdparty/stb_image.h	/^static void stbi__idct_simd(stbi_uc *out, int out_/
+stbi__info_main	thirdparty/stb_image.h	/^static int stbi__info_main(stbi__context *s, int */
+stbi__int16	thirdparty/stb_image.h	643
+stbi__int16	thirdparty/stb_image.h	649
+stbi__int32	thirdparty/stb_image.h	645
+stbi__int32	thirdparty/stb_image.h	651
+stbi__is_16_main	thirdparty/stb_image.h	/^static int stbi__is_16_main(stbi__context *s)$/
+stbi__jbias	thirdparty/stb_image.h	2149
+stbi__jpeg	thirdparty/stb_image.h	2001
+stbi__jpeg_decode_block	thirdparty/stb_image.h	/^static int stbi__jpeg_decode_block(stbi__jpeg *j, /
+stbi__jpeg_decode_block_prog_ac	thirdparty/stb_image.h	/^static int stbi__jpeg_decode_block_prog_ac(stbi__j/
+stbi__jpeg_decode_block_prog_dc	thirdparty/stb_image.h	/^static int stbi__jpeg_decode_block_prog_dc(stbi__j/
+stbi__jpeg_dequantize	thirdparty/stb_image.h	/^static void stbi__jpeg_dequantize(short *data, stb/
+stbi__jpeg_dezigzag	thirdparty/stb_image.h	2194
+stbi__jpeg_finish	thirdparty/stb_image.h	/^static void stbi__jpeg_finish(stbi__jpeg *z)$/
+stbi__jpeg_get_bit	thirdparty/stb_image.h	/^stbi_inline static int stbi__jpeg_get_bit(stbi__jp/
+stbi__jpeg_get_bits	thirdparty/stb_image.h	/^stbi_inline static int stbi__jpeg_get_bits(stbi__j/
+stbi__jpeg_huff_decode	thirdparty/stb_image.h	/^stbi_inline static int stbi__jpeg_huff_decode(stbi/
+stbi__jpeg_info	thirdparty/stb_image.h	/^static int stbi__jpeg_info(stbi__context *s, int */
+stbi__jpeg_info_raw	thirdparty/stb_image.h	/^static int stbi__jpeg_info_raw(stbi__jpeg *j, int /
+stbi__jpeg_load	thirdparty/stb_image.h	/^static void *stbi__jpeg_load(stbi__context *s, int/
+stbi__jpeg_reset	thirdparty/stb_image.h	/^static void stbi__jpeg_reset(stbi__jpeg *j)$/
+stbi__jpeg_test	thirdparty/stb_image.h	/^static int stbi__jpeg_test(stbi__context *s)$/
+stbi__l2h_gamma	thirdparty/stb_image.h	1573
+stbi__ldr_to_hdr	thirdparty/stb_image.h	/^static float   *stbi__ldr_to_hdr(stbi_uc *data, in/
+stbi__load_and_postprocess_16bit	thirdparty/stb_image.h	/^static stbi__uint16 *stbi__load_and_postprocess_16/
+stbi__load_and_postprocess_8bit	thirdparty/stb_image.h	/^static unsigned char *stbi__load_and_postprocess_8/
+stbi__load_gif_main	thirdparty/stb_image.h	/^static void *stbi__load_gif_main(stbi__context *s,/
+stbi__load_gif_main_outofmem	thirdparty/stb_image.h	/^static void *stbi__load_gif_main_outofmem(stbi__gi/
+stbi__load_main	thirdparty/stb_image.h	/^static void *stbi__load_main(stbi__context *s, int/
+stbi__loadf_main	thirdparty/stb_image.h	/^static float *stbi__loadf_main(stbi__context *s, i/
+stbi__mad2sizes_valid	thirdparty/stb_image.h	/^static int stbi__mad2sizes_valid(int a, int b, int/
+stbi__mad3sizes_valid	thirdparty/stb_image.h	/^static int stbi__mad3sizes_valid(int a, int b, int/
+stbi__mad4sizes_valid	thirdparty/stb_image.h	/^static int stbi__mad4sizes_valid(int a, int b, int/
+stbi__malloc	thirdparty/stb_image.h	/^static void *stbi__malloc(size_t size)$/
+stbi__malloc_mad2	thirdparty/stb_image.h	/^static void *stbi__malloc_mad2(int a, int b, int a/
+stbi__malloc_mad3	thirdparty/stb_image.h	/^static void *stbi__malloc_mad3(int a, int b, int c/
+stbi__malloc_mad4	thirdparty/stb_image.h	/^static void *stbi__malloc_mad4(int a, int b, int c/
+stbi__mul2shorts_valid	thirdparty/stb_image.h	/^static int stbi__mul2shorts_valid(int a, int b)$/
+stbi__mul2sizes_valid	thirdparty/stb_image.h	/^static int stbi__mul2sizes_valid(int a, int b)$/
+stbi__out_gif_code	thirdparty/stb_image.h	/^static void stbi__out_gif_code(stbi__gif *g, stbi_/
+stbi__paeth	thirdparty/stb_image.h	/^static int stbi__paeth(int a, int b, int c)$/
+stbi__parse_entropy_coded_data	thirdparty/stb_image.h	/^static int stbi__parse_entropy_coded_data(stbi__jp/
+stbi__parse_huffman_block	thirdparty/stb_image.h	/^static int stbi__parse_huffman_block(stbi__zbuf *a/
+stbi__parse_png_file	thirdparty/stb_image.h	/^static int stbi__parse_png_file(stbi__png *z, int /
+stbi__parse_uncompressed_block	thirdparty/stb_image.h	/^static int stbi__parse_uncompressed_block(stbi__zb/
+stbi__parse_zlib	thirdparty/stb_image.h	/^static int stbi__parse_zlib(stbi__zbuf *a, int par/
+stbi__parse_zlib_header	thirdparty/stb_image.h	/^static int stbi__parse_zlib_header(stbi__zbuf *a)$/
+stbi__pic_info	thirdparty/stb_image.h	/^static int stbi__pic_info(stbi__context *s, int *x/
+stbi__pic_is4	thirdparty/stb_image.h	/^static int stbi__pic_is4(stbi__context *s,const ch/
+stbi__pic_load	thirdparty/stb_image.h	/^static void *stbi__pic_load(stbi__context *s,int */
+stbi__pic_load_core	thirdparty/stb_image.h	/^static stbi_uc *stbi__pic_load_core(stbi__context /
+stbi__pic_packet	thirdparty/stb_image.h	6365
+stbi__pic_test	thirdparty/stb_image.h	/^static int stbi__pic_test(stbi__context *s)$/
+stbi__pic_test_core	thirdparty/stb_image.h	/^static int stbi__pic_test_core(stbi__context *s)$/
+stbi__png	thirdparty/stb_image.h	4635
+stbi__png_info	thirdparty/stb_image.h	/^static int stbi__png_info(stbi__context *s, int *x/
+stbi__png_info_raw	thirdparty/stb_image.h	/^static int stbi__png_info_raw(stbi__png *p, int *x/
+stbi__png_is16	thirdparty/stb_image.h	/^static int stbi__png_is16(stbi__context *s)$/
+stbi__png_load	thirdparty/stb_image.h	/^static void *stbi__png_load(stbi__context *s, int /
+stbi__png_test	thirdparty/stb_image.h	/^static int stbi__png_test(stbi__context *s)$/
+stbi__pngchunk	thirdparty/stb_image.h	4611
+stbi__pnm_getinteger	thirdparty/stb_image.h	/^static int      stbi__pnm_getinteger(stbi__context/
+stbi__pnm_info	thirdparty/stb_image.h	/^static int      stbi__pnm_info(stbi__context *s, i/
+stbi__pnm_is16	thirdparty/stb_image.h	/^static int stbi__pnm_is16(stbi__context *s)$/
+stbi__pnm_isdigit	thirdparty/stb_image.h	/^static int      stbi__pnm_isdigit(char c)$/
+stbi__pnm_isspace	thirdparty/stb_image.h	/^static int      stbi__pnm_isspace(char c)$/
+stbi__pnm_load	thirdparty/stb_image.h	/^static void *stbi__pnm_load(stbi__context *s, int /
+stbi__pnm_skip_whitespace	thirdparty/stb_image.h	/^static void     stbi__pnm_skip_whitespace(stbi__co/
+stbi__pnm_test	thirdparty/stb_image.h	/^static int      stbi__pnm_test(stbi__context *s)$/
+stbi__process_frame_header	thirdparty/stb_image.h	/^static int stbi__process_frame_header(stbi__jpeg */
+stbi__process_gif_raster	thirdparty/stb_image.h	/^static stbi_uc *stbi__process_gif_raster(stbi__con/
+stbi__process_marker	thirdparty/stb_image.h	/^static int stbi__process_marker(stbi__jpeg *z, int/
+stbi__process_scan_header	thirdparty/stb_image.h	/^static int stbi__process_scan_header(stbi__jpeg *z/
+stbi__psd_decode_rle	thirdparty/stb_image.h	/^static int stbi__psd_decode_rle(stbi__context *s, /
+stbi__psd_info	thirdparty/stb_image.h	/^static int stbi__psd_info(stbi__context *s, int *x/
+stbi__psd_is16	thirdparty/stb_image.h	/^static int stbi__psd_is16(stbi__context *s)$/
+stbi__psd_load	thirdparty/stb_image.h	/^static void *stbi__psd_load(stbi__context *s, int /
+stbi__psd_test	thirdparty/stb_image.h	/^static int stbi__psd_test(stbi__context *s)$/
+stbi__readval	thirdparty/stb_image.h	/^static stbi_uc *stbi__readval(stbi__context *s, in/
+stbi__refill_buffer	thirdparty/stb_image.h	/^static void stbi__refill_buffer(stbi__context *s)$/
+stbi__resample	thirdparty/stb_image.h	3856
+stbi__resample_row_generic	thirdparty/stb_image.h	/^static stbi_uc *stbi__resample_row_generic(stbi_uc/
+stbi__resample_row_h_2	thirdparty/stb_image.h	/^static stbi_uc*  stbi__resample_row_h_2(stbi_uc *o/
+stbi__resample_row_hv_2	thirdparty/stb_image.h	/^static stbi_uc *stbi__resample_row_hv_2(stbi_uc *o/
+stbi__resample_row_hv_2_simd	thirdparty/stb_image.h	/^static stbi_uc *stbi__resample_row_hv_2_simd(stbi_/
+stbi__resample_row_v_2	thirdparty/stb_image.h	/^static stbi_uc* stbi__resample_row_v_2(stbi_uc *ou/
+stbi__result_info	thirdparty/stb_image.h	906
+stbi__rewind	thirdparty/stb_image.h	/^static void stbi__rewind(stbi__context *s)$/
+stbi__setup_jpeg	thirdparty/stb_image.h	/^static void stbi__setup_jpeg(stbi__jpeg *j)$/
+stbi__shiftsigned	thirdparty/stb_image.h	/^static int stbi__shiftsigned(unsigned int v, int s/
+stbi__skip	thirdparty/stb_image.h	/^static void stbi__skip(stbi__context *s, int n)$/
+stbi__skip_jpeg_junk_at_end	thirdparty/stb_image.h	/^static stbi_uc stbi__skip_jpeg_junk_at_end(stbi__j/
+stbi__sse2_available	thirdparty/stb_image.h	/^static int stbi__sse2_available(void)$/
+stbi__sse2_available	thirdparty/stb_image.h	/^static int stbi__sse2_available(void)$/
+stbi__start_callbacks	thirdparty/stb_image.h	/^static void stbi__start_callbacks(stbi__context *s/
+stbi__start_file	thirdparty/stb_image.h	/^static void stbi__start_file(stbi__context *s, FIL/
+stbi__start_mem	thirdparty/stb_image.h	/^static void stbi__start_mem(stbi__context *s, stbi/
+stbi__stdio_callbacks	thirdparty/stb_image.h	870
+stbi__stdio_eof	thirdparty/stb_image.h	/^static int stbi__stdio_eof(void *user)$/
+stbi__stdio_read	thirdparty/stb_image.h	/^static int stbi__stdio_read(void *user, char *data/
+stbi__stdio_skip	thirdparty/stb_image.h	/^static void stbi__stdio_skip(void *user, int n)$/
+stbi__tga_get_comp	thirdparty/stb_image.h	/^static int stbi__tga_get_comp(int bits_per_pixel, /
+stbi__tga_info	thirdparty/stb_image.h	/^static int stbi__tga_info(stbi__context *s, int *x/
+stbi__tga_load	thirdparty/stb_image.h	/^static void *stbi__tga_load(stbi__context *s, int /
+stbi__tga_read_rgb16	thirdparty/stb_image.h	/^static void stbi__tga_read_rgb16(stbi__context *s,/
+stbi__tga_test	thirdparty/stb_image.h	/^static int stbi__tga_test(stbi__context *s)$/
+stbi__uint16	thirdparty/stb_image.h	642
+stbi__uint16	thirdparty/stb_image.h	648
+stbi__uint32	thirdparty/stb_image.h	644
+stbi__uint32	thirdparty/stb_image.h	650
+stbi__unpremultiply_on_load	thirdparty/stb_image.h	5007
+stbi__unpremultiply_on_load	thirdparty/stb_image.h	5025
+stbi__unpremultiply_on_load_global	thirdparty/stb_image.h	4993
+stbi__unpremultiply_on_load_local	thirdparty/stb_image.h	5010
+stbi__unpremultiply_on_load_set	thirdparty/stb_image.h	5010
+stbi__vertical_flip	thirdparty/stb_image.h	/^static void stbi__vertical_flip(void *image, int w/
+stbi__vertical_flip_slices	thirdparty/stb_image.h	/^static void stbi__vertical_flip_slices(void *image/
+stbi__vertically_flip_on_load	thirdparty/stb_image.h	1122
+stbi__vertically_flip_on_load	thirdparty/stb_image.h	1132
+stbi__vertically_flip_on_load_global	thirdparty/stb_image.h	1114
+stbi__vertically_flip_on_load_local	thirdparty/stb_image.h	1124
+stbi__vertically_flip_on_load_set	thirdparty/stb_image.h	1124
+stbi__zbuf	thirdparty/stb_image.h	4190
+stbi__zbuild_huffman	thirdparty/stb_image.h	/^static int stbi__zbuild_huffman(stbi__zhuffman *z,/
+stbi__zdefault_distance	thirdparty/stb_image.h	4464
+stbi__zdefault_length	thirdparty/stb_image.h	4452
+stbi__zdist_base	thirdparty/stb_image.h	4303
+stbi__zdist_extra	thirdparty/stb_image.h	4306
+stbi__zeof	thirdparty/stb_image.h	/^stbi_inline static int stbi__zeof(stbi__zbuf *z)$/
+stbi__zexpand	thirdparty/stb_image.h	/^static int stbi__zexpand(stbi__zbuf *z, char *zout/
+stbi__zget8	thirdparty/stb_image.h	/^stbi_inline static stbi_uc stbi__zget8(stbi__zbuf /
+stbi__zhuffman	thirdparty/stb_image.h	4105
+stbi__zhuffman_decode	thirdparty/stb_image.h	/^stbi_inline static int stbi__zhuffman_decode(stbi_/
+stbi__zhuffman_decode_slowpath	thirdparty/stb_image.h	/^static int stbi__zhuffman_decode_slowpath(stbi__zb/
+stbi__zlength_base	thirdparty/stb_image.h	4295
+stbi__zlength_extra	thirdparty/stb_image.h	4300
+stbi__zreceive	thirdparty/stb_image.h	/^stbi_inline static unsigned int stbi__zreceive(stb/
+stbi_convert_iphone_png_to_rgb	thirdparty/stb_image.h	/^STBIDEF void stbi_convert_iphone_png_to_rgb(int fl/
+stbi_convert_iphone_png_to_rgb_thread	thirdparty/stb_image.h	/^STBIDEF void stbi_convert_iphone_png_to_rgb_thread/
+stbi_failure_reason	thirdparty/stb_image.h	/^STBIDEF const char *stbi_failure_reason(void)$/
+stbi_hdr_to_ldr_gamma	thirdparty/stb_image.h	/^STBIDEF void   stbi_hdr_to_ldr_gamma(float gamma) /
+stbi_hdr_to_ldr_scale	thirdparty/stb_image.h	/^STBIDEF void   stbi_hdr_to_ldr_scale(float scale) /
+stbi_image_free	thirdparty/stb_image.h	/^STBIDEF void stbi_image_free(void *retval_from_stb/
+stbi_info	thirdparty/stb_image.h	/^STBIDEF int stbi_info(char const *filename, int *x/
+stbi_info_from_callbacks	thirdparty/stb_image.h	/^STBIDEF int stbi_info_from_callbacks(stbi_io_callb/
+stbi_info_from_file	thirdparty/stb_image.h	/^STBIDEF int stbi_info_from_file(FILE *f, int *x, i/
+stbi_info_from_memory	thirdparty/stb_image.h	/^STBIDEF int stbi_info_from_memory(stbi_uc const *b/
+stbi_inline	thirdparty/stb_image.h	615
+stbi_inline	thirdparty/stb_image.h	617
+stbi_inline	thirdparty/stb_image.h	620
+stbi_io_callbacks	thirdparty/stb_image.h	416
+stbi_is_16_bit	thirdparty/stb_image.h	/^STBIDEF int stbi_is_16_bit(char const *filename)$/
+stbi_is_16_bit_from_callbacks	thirdparty/stb_image.h	/^STBIDEF int stbi_is_16_bit_from_callbacks(stbi_io_/
+stbi_is_16_bit_from_file	thirdparty/stb_image.h	/^STBIDEF int stbi_is_16_bit_from_file(FILE *f)$/
+stbi_is_16_bit_from_memory	thirdparty/stb_image.h	/^STBIDEF int stbi_is_16_bit_from_memory(stbi_uc con/
+stbi_is_hdr	thirdparty/stb_image.h	/^STBIDEF int      stbi_is_hdr          (char const /
+stbi_is_hdr_from_callbacks	thirdparty/stb_image.h	/^STBIDEF int      stbi_is_hdr_from_callbacks(stbi_i/
+stbi_is_hdr_from_file	thirdparty/stb_image.h	/^STBIDEF int stbi_is_hdr_from_file(FILE *f)$/
+stbi_is_hdr_from_memory	thirdparty/stb_image.h	/^STBIDEF int stbi_is_hdr_from_memory(stbi_uc const /
+stbi_ldr_to_hdr_gamma	thirdparty/stb_image.h	/^STBIDEF void   stbi_ldr_to_hdr_gamma(float gamma) /
+stbi_ldr_to_hdr_scale	thirdparty/stb_image.h	/^STBIDEF void   stbi_ldr_to_hdr_scale(float scale) /
+stbi_load	thirdparty/stb_image.h	/^STBIDEF stbi_uc *stbi_load(char const *filename, i/
+stbi_load_16	thirdparty/stb_image.h	/^STBIDEF stbi_us *stbi_load_16(char const *filename/
+stbi_load_16_from_callbacks	thirdparty/stb_image.h	/^STBIDEF stbi_us *stbi_load_16_from_callbacks(stbi_/
+stbi_load_16_from_memory	thirdparty/stb_image.h	/^STBIDEF stbi_us *stbi_load_16_from_memory(stbi_uc /
+stbi_load_from_callbacks	thirdparty/stb_image.h	/^STBIDEF stbi_uc *stbi_load_from_callbacks(stbi_io_/
+stbi_load_from_file	thirdparty/stb_image.h	/^STBIDEF stbi_uc *stbi_load_from_file(FILE *f, int /
+stbi_load_from_file_16	thirdparty/stb_image.h	/^STBIDEF stbi__uint16 *stbi_load_from_file_16(FILE /
+stbi_load_from_memory	thirdparty/stb_image.h	/^STBIDEF stbi_uc *stbi_load_from_memory(stbi_uc con/
+stbi_load_gif_from_memory	thirdparty/stb_image.h	/^STBIDEF stbi_uc *stbi_load_gif_from_memory(stbi_uc/
+stbi_loadf	thirdparty/stb_image.h	/^STBIDEF float *stbi_loadf(char const *filename, in/
+stbi_loadf_from_callbacks	thirdparty/stb_image.h	/^STBIDEF float *stbi_loadf_from_callbacks(stbi_io_c/
+stbi_loadf_from_file	thirdparty/stb_image.h	/^STBIDEF float *stbi_loadf_from_file(FILE *f, int */
+stbi_loadf_from_memory	thirdparty/stb_image.h	/^STBIDEF float *stbi_loadf_from_memory(stbi_uc cons/
+stbi_lrot	thirdparty/stb_image.h	/^   #define stbi_lrot(x,y)  _lrotl(x,y)$/
+stbi_lrot	thirdparty/stb_image.h	/^   #define stbi_lrot(x,y)  (((x) << (y)) | ((x) >>/
+stbi_set_flip_vertically_on_load	thirdparty/stb_image.h	/^STBIDEF void stbi_set_flip_vertically_on_load(int /
+stbi_set_flip_vertically_on_load_thread	thirdparty/stb_image.h	/^STBIDEF void stbi_set_flip_vertically_on_load_thre/
+stbi_set_unpremultiply_on_load	thirdparty/stb_image.h	/^STBIDEF void stbi_set_unpremultiply_on_load(int fl/
+stbi_set_unpremultiply_on_load_thread	thirdparty/stb_image.h	/^STBIDEF void stbi_set_unpremultiply_on_load_thread/
+stbi_uc	thirdparty/stb_image.h	387
+stbi_us	thirdparty/stb_image.h	388
+stbi_zlib_decode_buffer	thirdparty/stb_image.h	/^STBIDEF int stbi_zlib_decode_buffer(char *obuffer,/
+stbi_zlib_decode_malloc	thirdparty/stb_image.h	/^STBIDEF char *stbi_zlib_decode_malloc(char const */
+stbi_zlib_decode_malloc_guesssize	thirdparty/stb_image.h	/^STBIDEF char *stbi_zlib_decode_malloc_guesssize(co/
+stbi_zlib_decode_malloc_guesssize_headerflag	thirdparty/stb_image.h	/^STBIDEF char *stbi_zlib_decode_malloc_guesssize_he/
+stbi_zlib_decode_noheader_buffer	thirdparty/stb_image.h	/^STBIDEF int stbi_zlib_decode_noheader_buffer(char /
+stbi_zlib_decode_noheader_malloc	thirdparty/stb_image.h	/^STBIDEF char *stbi_zlib_decode_noheader_malloc(cha/
 stderr_path	nob.h	538
 stderr_path	nob.h	604
 stdin_path	nob.h	534
 stdin_path	nob.h	588
 stdout_path	nob.h	536
 stdout_path	nob.h	603
+step	thirdparty/stb_image.h	6571
+succ_high	thirdparty/stb_image.h	1987
+succ_low	thirdparty/stb_image.h	1988
+suffix	thirdparty/stb_image.h	6557
 sv_chop_by_delim	nob.h	3004
 sv_chop_left	nob.h	3008
 sv_chop_prefix	nob.h	3006
@@ -436,7 +1048,21 @@ temp_strdup	nob.h	2982
 temp_strndup	nob.h	2983
 temp_sv_to_cstr	nob.h	3003
 temp_vsprintf	nob.h	2986
+todo	thirdparty/stb_image.h	1995
+tq	thirdparty/stb_image.h	1967
+transparent	thirdparty/stb_image.h	6566
 type	nob.h	280
+type	thirdparty/stb_image.h	4610
+type	thirdparty/stb_image.h	6364
+v	thirdparty/stb_image.h	1966
+validate_uint32	thirdparty/stb_image.h	655
+value	thirdparty/stb_image.h	4104
+values	thirdparty/stb_image.h	1943
+vertices	box.h	4
+vs	thirdparty/stb_image.h	3852
+w	thirdparty/stb_image.h	6562
+w2	thirdparty/stb_image.h	1971
+w_lores	thirdparty/stb_image.h	3853
 walk_dir	nob.h	2907
 walk_dir_opt	nob.h	2908
 win32_data	nob.h	316
@@ -445,5 +1071,18 @@ win32_hFind	nob.h	317
 win32_init	nob.h	318
 write	nob.h	490
 write_entire_file	nob.h	2909
-x	main.c	14
-y	main.c	14
+x	main.c	36
+x	thirdparty/stb_image.h	1971
+y	main.c	36
+y	thirdparty/stb_image.h	1971
+ypos	thirdparty/stb_image.h	3855
+ystep	thirdparty/stb_image.h	3854
+z_distance	thirdparty/stb_image.h	4189
+z_expandable	thirdparty/stb_image.h	4187
+z_length	thirdparty/stb_image.h	4189
+zbuffer	thirdparty/stb_image.h	4179
+zbuffer_end	thirdparty/stb_image.h	4179
+zero	includes/matrices/matrix_dyn.h	/^static inline float zero()$/
+zout	thirdparty/stb_image.h	4184
+zout_end	thirdparty/stb_image.h	4186
+zout_start	thirdparty/stb_image.h	4185

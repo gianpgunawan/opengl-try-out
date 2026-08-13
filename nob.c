@@ -47,6 +47,11 @@ int main(int argc, char **argv)
             }
         }
 
+        if (command == 't') {
+            nob_cmd_append(&cmd, "ctags", "-R", "$(find -type f -name '*.[ch]')");
+            if (!nob_cmd_run(&cmd)) return 1;
+        }
+
         if (command == 'r') {
             nob_cmd_append(&cmd, "./main");
             if (!nob_cmd_run(&cmd)) return 1;

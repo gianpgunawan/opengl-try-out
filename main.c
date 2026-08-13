@@ -1,21 +1,23 @@
+#include <math.h>
 #include <stdio.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include <math.h>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "thirdparty/stb_image.h"
-
 #define ARENA_IMPLEMENTATION
 #define MATRIX_IMPLEMENTATION
 #define MATRIX_DYN_IMPLEMENTATION
+#define MAT_PIPELINE_HELPER_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
 
 #include "arena.h"
+#include "box.h"
 #include "matrices/matrix.h"
 #include "matrices/matrix_dyn.h"
+#include "matrices/mat_pipeline_helper.h"
+#include "thirdparty/stb_image.h"
 
 #define TEXTURE_FILE_NAME "./assets/wall.jpg"
 
@@ -30,131 +32,60 @@ Arena arena = {0};
 #define R 0.1f
 #define T 0.1f
 
-float fn = N;
-float ff = F;
-float fr = R;
-float ft = T;
-
 uint8_t *buffer;
 int x, y, n_channels;
 float n_deg = 0.0f;
 
-GLfloat MAT_PROJECTION[] = {
-    N/R, 0.0f, 0.0f, 0.0f,
-    0.0f, N/T, 0.0f, 0.0f,
-    0.0f, 0.0f, -(F + N)/(F - N), (-2.0f*(F*N))/(F - N),
-    0.0f, 0.0f, -1.0f, 0.0f
-};
-
-GLfloat MAT_TRANSLATION[] = {
-    1.0f, 0.0f, 0.0f, 0.0f,
-    0.0f, 1.0f, 0.0f, 0.0f,
-    0.0f, 0.0f, 1.0f, 0.0f,
-    0.0f, 0.0f, 0.0f, 1.0f,
-};
-
-GLfloat MAT_SCALING[] = {
-    1.0f, 0.0f, 0.0f, 0.0f,
-    0.0f, 1.0f, 0.0f, 0.0f,
-    0.0f, 0.0f, 1.0f, 0.0f,
-    0.0f, 0.0f, 0.0f, 1.0f,
-};
+extern float vertices[];
 
 static inline float degree_to_radian(float degree)
 {
     return degree / 360.0f * (2.0f * M_PI);
 }
 
-void set_projection_mat()
-{
-    int i = 0;
-    int j = 1*4 + 1;
-    int k = 2*4 + 2;
-    int k2 = 2*4 + 3;
-    MAT_PROJECTION[i] = fn/fr;
-    MAT_PROJECTION[j] = fn/ft;
-    MAT_PROJECTION[k] = -(ff + fn)/(ff - fn);
-    MAT_PROJECTION[k2] = (-2.0f*(ff*fn))/(ff - fn);
-}
-
-void set_scaling_mat(float n)
-{
-    int i = 0;
-    int j = 1*4 + 1;
-    int k = 2*4 + 2;
-    MAT_SCALING[i] = n;
-    MAT_SCALING[j] = n;
-    MAT_SCALING[k] = n;
-}
-
-void set_translation_mat(float x, float y, float z)
-{
-    int i = 3;
-    int j = 1*4 + 3;
-    int k = 2*4 + 3;
-    MAT_TRANSLATION[i] = x;
-    MAT_TRANSLATION[j] = y;
-    MAT_TRANSLATION[k] = z;
-}
-
-int print_mat4()
-{
-    for (int i = 0; i < 4; ++i) {
-        for (int j = 0; j < 4; ++j) {
-            int pos = i * 4 + j;
-            printf("%f ", MAT_TRANSLATION[pos]);
-        }
-        printf("\n");
-    }
-    return 0;
-}
-
 static void key_cb(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    static float zn = -3.0f;
-    static float xn = 0.0f;
-    static float yn = 0.0f;
+//    static float zn = -3.0f;
+//    static float xn = 0.0f;
+//    static float yn = 0.0f;
 
-    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-        n_deg += 1.0f;
-    }
+//    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+//        n_deg += 1.0f;
+//    }
+//
+//    if (key == GLFW_KEY_R && action == GLFW_PRESS) {
+//        n_deg -= 1.0f;
+//    }
+//
+//    if (key == GLFW_KEY_P && action == GLFW_PRESS) {
+//        bool is_shift = (mods & GLFW_MOD_SHIFT);
+//        fn += is_shift ? -0.1f : +0.1f;
+//        set_projection_mat();
+//    }
+//
+//    if (key == GLFW_KEY_X && action == GLFW_PRESS) {
+//        bool is_shift = (mods & GLFW_MOD_SHIFT);
+//        xn += is_shift ? -0.01f : +0.01f;
+//    }
+//
+//    if (key == GLFW_KEY_Y && action == GLFW_PRESS) {
+//        bool is_shift = (mods & GLFW_MOD_SHIFT);
+//        yn += is_shift ? -0.01f : +0.01f;
+//    }
+//
+//    if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
+//        bool is_shift = (mods & GLFW_MOD_SHIFT);
+//        zn += is_shift ? 0.5f : -0.5f;
+//    }
+}
 
-    if (key == GLFW_KEY_R && action == GLFW_PRESS) {
-        n_deg -= 1.0f;
-    }
-
-    if (key == GLFW_KEY_P && action == GLFW_PRESS) {
-        bool is_shift = (mods & GLFW_MOD_SHIFT);
-        fn += is_shift ? -0.1f : +0.1f;
-        set_projection_mat();
-    }
-
-    if (key == GLFW_KEY_X && action == GLFW_PRESS) {
-        bool is_shift = (mods & GLFW_MOD_SHIFT);
-        xn += is_shift ? -0.01f : +0.01f;
-        set_translation_mat(xn, 0.0f, zn);
-    }
-
-    if (key == GLFW_KEY_Y && action == GLFW_PRESS) {
-        bool is_shift = (mods & GLFW_MOD_SHIFT);
-        yn += is_shift ? -0.01f : +0.01f;
-        set_translation_mat(xn, yn, zn);
-    }
-
-    if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
-        bool is_shift = (mods & GLFW_MOD_SHIFT);
-        zn += is_shift ? 0.5f : -0.5f;
-        set_translation_mat(xn, 0.0f, zn);
-    }
+void init_box()
+{
+    
 }
 
 int main() {
 #if(0)
-    set_translation_mat(0.0f, 0.0f, -3.0f);
-    set_scaling_mat(2.0f);
-    print_mat4(); 
-    exit(1);
 #endif
-
     arena_init(&arena, ARENA_SIZE);
     if (!glfwInit()) return -1;
 
@@ -189,54 +120,6 @@ int main() {
     } else {
         printf("Failed to load image\n");
     }
-
-    float z_val_front = 0.5f;
-    float z_val_back  = -0.5f;
-    float w_val = 1.0f;
-
-    float vertices[] = {
-        -0.5f, -0.5f, z_val_front, w_val, 0.0f, 0.0f,   
-         0.5f, -0.5f, z_val_front, w_val, 1.0f, 0.0f,
-         0.5f,  0.5f, z_val_front, w_val, 1.0f, 1.0f,
-         0.5f,  0.5f, z_val_front, w_val, 1.0f, 1.0f,
-        -0.5f,  0.5f, z_val_front, w_val, 0.0f, 1.0f,
-        -0.5f, -0.5f, z_val_front, w_val, 0.0f, 0.0f,
-
-        -0.5f, -0.5f, z_val_back,  w_val, 0.0f, 0.0f,
-         0.5f, -0.5f, z_val_back,  w_val, 1.0f, 0.0f,
-         0.5f,  0.5f, z_val_back,  w_val, 1.0f, 1.0f,
-         0.5f,  0.5f, z_val_back,  w_val, 1.0f, 1.0f,
-        -0.5f,  0.5f, z_val_back,  w_val, 0.0f, 1.0f,
-        -0.5f, -0.5f, z_val_back,  w_val, 0.0f, 0.0f,
-
-        -0.5f,  0.5f,  z_val_back, w_val, 1.0f, 0.0f,
-        -0.5f,  0.5f, z_val_front, w_val, 1.0f, 1.0f,
-        -0.5f, -0.5f, z_val_front, w_val, 0.0f, 1.0f,
-        -0.5f, -0.5f, z_val_front, w_val, 0.0f, 1.0f,
-        -0.5f, -0.5f, z_val_back,  w_val, 0.0f, 0.0f,
-        -0.5f,  0.5f, z_val_back,  w_val, 1.0f, 0.0f,
-
-         0.5f,  0.5f, z_val_back,  w_val, 1.0f, 0.0f,
-         0.5f,  0.5f, z_val_front, w_val, 1.0f, 1.0f,
-         0.5f, -0.5f, z_val_front, w_val, 0.0f, 1.0f,
-         0.5f, -0.5f, z_val_front, w_val, 0.0f, 1.0f,
-         0.5f, -0.5f, z_val_back,  w_val, 0.0f, 0.0f,
-         0.5f,  0.5f, z_val_back,  w_val, 1.0f, 0.0f,
-
-        -0.5f, -0.5f, z_val_front, w_val, 0.0f, 1.0f,
-         0.5f, -0.5f, z_val_front, w_val, 1.0f, 1.0f,
-         0.5f, -0.5f, z_val_back,  w_val, 1.0f, 0.0f,
-         0.5f, -0.5f, z_val_back,  w_val, 1.0f, 0.0f,
-        -0.5f, -0.5f, z_val_back,  w_val, 0.0f, 0.0f,
-        -0.5f, -0.5f, z_val_front, w_val, 0.0f, 1.0f,
-
-        -0.5f,  0.5f, z_val_front, w_val, 0.0f, 1.0f,
-         0.5f,  0.5f, z_val_front, w_val, 1.0f, 1.0f,
-         0.5f,  0.5f, z_val_back,  w_val, 1.0f, 0.0f,
-         0.5f,  0.5f, z_val_back,  w_val, 1.0f, 0.0f,
-        -0.5f,  0.5f, z_val_back,  w_val, 0.0f, 0.0f,
-        -0.5f,  0.5f, z_val_front, w_val, 0.0f, 1.0f
-    };
 
 // VBO
     GLuint VBO;
@@ -296,12 +179,7 @@ int main() {
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
-    GLint ok = 0;
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &ok);
-    if (!ok) {
-        printf("ERRRORRRRJ\n");
-        exit(1);
-    }
+
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
@@ -315,43 +193,29 @@ int main() {
     glDeleteShader(fragmentShader);
 
     GLuint mvc_loc = glGetUniformLocation(shaderProgram, "mvc");
-
     GLuint texture_loc = glGetUniformLocation(shaderProgram, "ourTexture");
      
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     glDepthMask(GL_TRUE);
 
-    mat scale = mdyn_identity(&arena, 4, 4);
-    mat_mul_scalar(&scale, 50.0f, &scale);
+    mat scale = mat_scaling(&arena, 2.0f);
+    mat proj = mat_projection(&arena, F, N, T, R);
+    mat trans = mat_translation(&arena, 0.0f, 0.0f, -3.0f);
 
-    set_translation_mat(0.0f, 0.0f, -3.0f);
-    
     while (!glfwWindowShouldClose(window)) {
+        size_t checkpoint = arena.count;
+
         n_deg += 0.1f;
         float degree = degree_to_radian(n_deg);
-        float cos_val = cos(degree);
-        float sin_val = sin(degree);
-
-        size_t checkpoint = arena.count;
-        mat rot_y = mdyn_make_mat(&arena, 4, 4, (float[]){
-            1.0f, 0.0f, 0.0f, 0.0f,
-            0.0f, cos_val, -sin_val, 0.0f,
-            0.0f, sin_val, cos_val, 0.0f,
-            0.0f, 0.0f, 0.0f, 1.0f
-        });
-        mat rot_x = mdyn_make_mat(&arena, 4, 4, (float[]){
-            cos_val, 0.0f, sin_val, 0.0f,
-            0.0f, 1.0f, 0.0f, 0.0f,
-            -sin_val, 0.0f, cos_val, 0.0f,
-            0.0f, 0.0f, 0.0f, 1.0f,
-        });
-        mat trans = mdyn_make_mat(&arena, 4, 4, MAT_TRANSLATION);
-        mat proj = mdyn_make_mat(&arena, 4, 4, MAT_PROJECTION);
+        mat rot_y = mat_rotate(&arena, degree, MAT_ROTATE_Y);
+        mat rot_x = mat_rotate(&arena, degree, MAT_ROTATE_X);
+        mat rot_z = mat_rotate(&arena, degree, MAT_ROTATE_Z);
 
         mat tmp = mdyn_mul(&arena, &proj, &trans);
         tmp = mdyn_mul(&arena, &tmp, &rot_x);
         tmp = mdyn_mul(&arena, &tmp, &rot_y);
+        tmp = mdyn_mul(&arena, &tmp, &rot_z);
         tmp = mdyn_mul(&arena, &tmp, &scale);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -369,7 +233,6 @@ int main() {
 
         glfwSwapBuffers(window);
         glfwPollEvents();
-
     }
 
     glfwTerminate();
