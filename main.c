@@ -43,6 +43,39 @@ float n_deg = 0.0f;
 
 extern float vertices[];
 
+typedef struct {
+    GLuint vbo;
+    GLuint vao;
+} Renderer;
+
+void renderer_set_vertex(Renderer *r, float *vertex, size_t vertex_size)
+{
+    glGenBuffers(1, &(r->vbo));
+    glBindBuffer(GL_ARRAY_BUFFER, r->vbo);
+    glBufferData(GL_ARRAY_BUFFER,
+                 vertex_size,
+                 vertex,
+                 GL_DYNAMIC_DRAW);
+
+    glGenVertexArrays(1, &(r->vao));
+    glBindVertexArray(r->vao);
+    glVertexAttribPointer(0,
+                          4,
+                          GL_FLOAT,
+                          GL_FALSE,
+                          6 * sizeof(float),
+                          (GLvoid*)0);
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1,
+                          2,
+                          GL_FLOAT,
+                          GL_FALSE,
+                          6 * sizeof(float),
+                          (GLvoid*)(4 * sizeof(GLfloat)) );
+    glEnableVertexAttribArray(1);
+}
+
 static inline float degree_to_radian(float degree)
 {
     return degree / 360.0f * (2.0f * M_PI);
@@ -121,9 +154,30 @@ bool link_program(GLuint vert_shader, GLuint frag_shader, GLuint *program)
     return program;
 }
 
-int main() {
-#if(0)
-#endif
+static void key_cb(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    bool is_shift = (mods & GLFW_MOD_SHIFT);
+
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+    }
+
+    if (key == GLFW_KEY_R && action == GLFW_PRESS) {
+    }
+
+    if (key == GLFW_KEY_P && action == GLFW_PRESS) {
+    }
+
+    if (key == GLFW_KEY_X && action == GLFW_PRESS) {
+    }
+
+    if (key == GLFW_KEY_Y && action == GLFW_PRESS) {
+    }
+
+    if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
+    }
+}
+
+int main()
+{
     arena_init(&arena, ARENA_SIZE);
     if (!glfwInit()) return -1;
 
@@ -134,12 +188,15 @@ int main() {
     }
 
     glfwMakeContextCurrent(window);
+    glfwSetKeyCallback(window, key_cb);
 
     if (glewInit() != GLEW_OK) {
         printf("GLEW failed\n");
         return -1;
     }
-    
+
+    Renderer renderer = {0};
+    renderer_set_vertex(&renderer, vertices, sizeof(vertices));
 
     GLuint texture;
     glGenTextures(1, &texture);
@@ -148,7 +205,7 @@ int main() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     buffer = stbi_load(TEXTURE_FILE_NAME, &x, &y, &n_channels, 0);
     if (buffer) {
@@ -157,27 +214,6 @@ int main() {
     } else {
         printf("Failed to load image\n");
     }
-
-// VBO
-    GLuint VBO;
-
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
-
-// VAO
-    GLuint VAO;
-
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-
-    // FOR POSITIONS 
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)0);
-    glEnableVertexAttribArray(0);
-
-    // FOR TEXTURE
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(4 * sizeof(GLfloat)) );
-    glEnableVertexAttribArray(1);
 
     GLuint vertext_shader;
     GLuint fragment_shader;
@@ -199,6 +235,8 @@ int main() {
     mat proj = mat_projection(&arena, F, N, T, R);
     mat trans = mat_translation(&arena, 0.0f, 0.0f, -3.0f);
 
+    printf("VAO => %u, VBO => %u\n", renderer.vao, renderer.vbo);
+
     while (!glfwWindowShouldClose(window)) {
         size_t checkpoint = arena.count;
 
@@ -218,7 +256,7 @@ int main() {
         glUseProgram(program);
 
         glBindTexture(GL_TEXTURE_2D, texture);
-        glBindVertexArray(VAO);
+        glBindVertexArray(renderer.vao);
 
         glUniformMatrix4fv(mvc_loc, 1, GL_TRUE, tmp.es);
         arena_reset_to(&arena, checkpoint);
