@@ -1,6 +1,6 @@
 ARENA_H	includes/arena.h	2
-ARENA_IMPLEMENTATION	main.c	10
-ARENA_SIZE	main.c	27
+ARENA_IMPLEMENTATION	main.c	9
+ARENA_SIZE	main.c	32
 ARRAY_GET	nob.h	2869
 ARRAY_LEN	nob.h	2868
 ASSERT	includes/assert_util.h	/^#define ASSERT(cond, message) do { \\$/
@@ -19,7 +19,7 @@ DATA_FORMAT	includes/matrices/matrix.h	8
 DATA_TYPE	includes/matrices/matrix.h	7
 Dir_Entry	nob.h	2912
 ERROR	nob.h	2872
-F	main.c	31
+F	main.c	36
 FAST_BITS	thirdparty/stb_image.h	1936
 FILE_DIRECTORY	nob.h	2892
 FILE_OTHER	nob.h	2894
@@ -30,28 +30,28 @@ File_Paths	nob.h	2890
 File_Type	nob.h	2895
 GO_REBUILD_URSELF	nob.h	2888
 GO_REBUILD_URSELF_PLUS	nob.h	2889
-HEIGHT	main.c	25
+HEIGHT	main.c	30
 INFO	nob.h	2870
 INVALID_FD	nob.h	2954
 INVALID_PROC	nob.h	2940
 Log_Handler	nob.h	2877
 Log_Level	nob.h	2874
 MATRIX_DYN_C	includes/matrices/matrix_dyn.h	2
-MATRIX_DYN_IMPLEMENTATION	main.c	12
-MATRIX_IMPLEMENTATION	main.c	11
+MATRIX_DYN_IMPLEMENTATION	main.c	11
+MATRIX_IMPLEMENTATION	main.c	10
 MAT_AT	includes/matrices/matrix_dyn.h	/^    #define MAT_AT(mat, row, col) ((mat)->es[(mat)/
 MAT_AT	includes/matrices/matrix.h	/^#define MAT_AT(mat, row, col) ((mat)->es[(mat)->co/
 MAT_H	includes/matrices/matrix.h	2
 MAT_PIPELINE_HELPER_H	includes/matrices/mat_pipeline_helper.h	2
-MAT_PIPELINE_HELPER_IMPLEMENTATION	includes/matrices/mat_pipeline_helper.h	18
-MAT_PIPELINE_HELPER_IMPLEMENTATION	main.c	13
+MAT_PIPELINE_HELPER_IMPLEMENTATION	main.c	12
 MAT_ROTATE_X	includes/matrices/mat_pipeline_helper.h	7
 MAT_ROTATE_Y	includes/matrices/mat_pipeline_helper.h	8
 MAT_ROTATE_Z	includes/matrices/mat_pipeline_helper.h	9
 Mat_Rotate	includes/matrices/mat_pipeline_helper.h	10
+Mmain	tmp/main.c	/^int main()$/
 Mmain	main.c	/^int main() {$/
 Mnob	nob.c	/^int main(int argc, char **argv)$/
-N	main.c	30
+N	main.c	35
 NANOS_PER_SEC	nob.h	3024
 NOBDEF	nob.h	114
 NOB_ARRAY_GET	nob.h	/^#define NOB_ARRAY_GET(array, index) \\$/
@@ -77,7 +77,9 @@ NOB_FREE	nob.h	129
 NOB_GO_REBUILD_URSELF	nob.h	/^#define NOB_GO_REBUILD_URSELF(argc, argv) nob__go_/
 NOB_GO_REBUILD_URSELF_PLUS	nob.h	/^#define NOB_GO_REBUILD_URSELF_PLUS(argc, argv, .../
 NOB_H_	nob.h	102
+NOB_IMPLEMENTATION	tmp/main.c	1
 NOB_IMPLEMENTATION	nob.c	1
+NOB_IMPLEMENTATION	main.c	13
 NOB_INFO	nob.h	213
 NOB_INVALID_FD	nob.h	476
 NOB_INVALID_FD	nob.h	481
@@ -137,7 +139,7 @@ Nob_Walk_Func	nob.h	297
 Pipe	nob.h	2942
 Proc	nob.h	2939
 Procs	nob.h	2958
-R	main.c	32
+R	main.c	37
 STBIDEF	thirdparty/stb_image.h	396
 STBIDEF	thirdparty/stb_image.h	398
 STBI_ASSERT	thirdparty/stb_image.h	/^#define STBI_ASSERT(x) assert(x)$/
@@ -210,13 +212,13 @@ STBI_grey	thirdparty/stb_image.h	380
 STBI_grey_alpha	thirdparty/stb_image.h	381
 STBI_rgb	thirdparty/stb_image.h	382
 STBI_rgb_alpha	thirdparty/stb_image.h	383
-STB_IMAGE_IMPLEMENTATION	main.c	9
+STB_IMAGE_IMPLEMENTATION	main.c	14
 SV_Arg	nob.h	/^#define SV_Arg(sv) (int) (sv).count, (sv).data$/
 SV_Fmt	nob.h	942
 String_Builder	nob.h	2929
 String_View	nob.h	3002
-T	main.c	33
-TEXTURE_FILE_NAME	main.c	22
+T	main.c	38
+TEXTURE_FILE_NAME	main.c	24
 TODO	nob.h	2865
 UNREACHABLE	nob.h	2866
 UNUSED	nob.h	2867
@@ -224,7 +226,7 @@ WALK_CONT	nob.h	2900
 WALK_SKIP	nob.h	2901
 WALK_STOP	nob.h	2902
 WARNING	nob.h	2871
-WIDTH	main.c	24
+WIDTH	main.c	29
 WIN32_LEAN_AND_MEAN	nob.h	158
 Walk_Action	nob.h	2903
 Walk_Dir_Opt	nob.h	2906
@@ -241,7 +243,7 @@ action	nob.h	287
 add_compile_command	nob.c	/^int add_compile_command(Nob_Cmd *cmd)$/
 all_a	thirdparty/stb_image.h	5418
 app14_color_transform	thirdparty/stb_image.h	1991
-arena	main.c	28
+arena	main.c	33
 arena_alloc	includes/arena.h	/^void *arena_alloc(Arena *arena, size_t n)$/
 arena_free	includes/arena.h	/^void arena_free(Arena *arena)$/
 arena_init	includes/arena.h	/^int arena_init(Arena *arena, size_t n)$/
@@ -254,7 +256,7 @@ background	thirdparty/stb_image.h	6564
 bgindex	thirdparty/stb_image.h	6566
 bits_per_channel	thirdparty/stb_image.h	903
 bpp	thirdparty/stb_image.h	5417
-buffer	main.c	35
+buffer	main.c	40
 buffer_start	thirdparty/stb_image.h	815
 buflen	thirdparty/stb_image.h	814
 callback_already_read	thirdparty/stb_image.h	816
@@ -297,6 +299,8 @@ coeff_h	thirdparty/stb_image.h	1976
 coeff_w	thirdparty/stb_image.h	1976
 color_table	thirdparty/stb_image.h	6570
 cols	includes/matrices/matrix.h	13
+compile_shader_file	main.c	/^bool compile_shader_file(const char *file_path, GL/
+compile_shader_source	main.c	/^bool compile_shader_source(const GLchar *source, G/
 copy_directory_recursively	nob.h	2898
 copy_file	nob.h	2897
 count	includes/arena.h	10
@@ -407,6 +411,7 @@ first_row_filter	thirdparty/stb_image.h	4648
 firstcode	thirdparty/stb_image.h	4100
 firstsymbol	thirdparty/stb_image.h	4102
 flags	thirdparty/stb_image.h	6566
+fragement_shader_path	main.c	27
 get_current_dir_temp	nob.h	2996
 get_file_type	nob.h	2910
 get_log_handler	nob.h	2879
@@ -449,7 +454,6 @@ items	nob.h	520
 items	nob.h	1310
 items	nob.h	1362
 jfif	thirdparty/stb_image.h	1990
-key_cb	main.c	/^static void key_cb(GLFWwindow* window, int key, in/
 length	thirdparty/stb_image.h	4609
 level	nob.h	282
 lflags	thirdparty/stb_image.h	6572
@@ -503,8 +507,8 @@ mg	thirdparty/stb_image.h	5418
 minimal_log_level	nob.h	2875
 mkdir_if_not_exists	nob.h	2896
 mr	thirdparty/stb_image.h	5418
-n_channels	main.c	36
-n_deg	main.c	37
+n_channels	main.c	41
+n_deg	main.c	42
 name	nob.h	311
 nanos_since_unspecified_epoch	nob.h	3023
 needs_rebuild	nob.h	2993
@@ -704,6 +708,7 @@ sb_to_sv	nob.h	3020
 scan_n	thirdparty/stb_image.h	1994
 set_current_dir	nob.h	2997
 set_log_handler	nob.h	2878
+shader_type_as_cstr	main.c	/^const char *shader_type_as_cstr(GLuint shader)$/
 shift	nob.h	2886
 shift_args	nob.h	2887
 size	thirdparty/stb_image.h	1944
@@ -1058,6 +1063,7 @@ v	thirdparty/stb_image.h	1966
 validate_uint32	thirdparty/stb_image.h	655
 value	thirdparty/stb_image.h	4104
 values	thirdparty/stb_image.h	1943
+vertext_shader_path	main.c	26
 vertices	box.h	4
 vs	thirdparty/stb_image.h	3852
 w	thirdparty/stb_image.h	6562
@@ -1071,9 +1077,9 @@ win32_hFind	nob.h	317
 win32_init	nob.h	318
 write	nob.h	490
 write_entire_file	nob.h	2909
-x	main.c	36
+x	main.c	41
 x	thirdparty/stb_image.h	1971
-y	main.c	36
+y	main.c	41
 y	thirdparty/stb_image.h	1971
 ypos	thirdparty/stb_image.h	3855
 ystep	thirdparty/stb_image.h	3854

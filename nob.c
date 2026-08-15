@@ -20,7 +20,7 @@ int add_compile_command(Nob_Cmd *cmd)
         "main.c"
     );
 
-    nob_cmd_append(cmd, "-lGL");
+//    nob_cmd_append(cmd, "-lGL");
     nob_cmd_append(cmd, "-lglfw");
     nob_cmd_append(cmd, "-lGLEW");
     nob_cmd_append(cmd, "-lm");

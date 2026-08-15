@@ -10,6 +10,7 @@
 #define MATRIX_IMPLEMENTATION
 #define MATRIX_DYN_IMPLEMENTATION
 #define MAT_PIPELINE_HELPER_IMPLEMENTATION
+#define NOB_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "arena.h"
@@ -17,9 +18,13 @@
 #include "matrices/matrix.h"
 #include "matrices/matrix_dyn.h"
 #include "matrices/mat_pipeline_helper.h"
+#include "nob.h"
 #include "thirdparty/stb_image.h"
 
 #define TEXTURE_FILE_NAME "./assets/wall.jpg"
+
+const char *vertext_shader_path = "./shaders/box.vert";
+const char *fragment_shader_path = "./shaders/texture.frag";
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -43,44 +48,77 @@ static inline float degree_to_radian(float degree)
     return degree / 360.0f * (2.0f * M_PI);
 }
 
-static void key_cb(GLFWwindow* window, int key, int scancode, int action, int mods) {
-//    static float zn = -3.0f;
-//    static float xn = 0.0f;
-//    static float yn = 0.0f;
-
-//    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-//        n_deg += 1.0f;
-//    }
-//
-//    if (key == GLFW_KEY_R && action == GLFW_PRESS) {
-//        n_deg -= 1.0f;
-//    }
-//
-//    if (key == GLFW_KEY_P && action == GLFW_PRESS) {
-//        bool is_shift = (mods & GLFW_MOD_SHIFT);
-//        fn += is_shift ? -0.1f : +0.1f;
-//        set_projection_mat();
-//    }
-//
-//    if (key == GLFW_KEY_X && action == GLFW_PRESS) {
-//        bool is_shift = (mods & GLFW_MOD_SHIFT);
-//        xn += is_shift ? -0.01f : +0.01f;
-//    }
-//
-//    if (key == GLFW_KEY_Y && action == GLFW_PRESS) {
-//        bool is_shift = (mods & GLFW_MOD_SHIFT);
-//        yn += is_shift ? -0.01f : +0.01f;
-//    }
-//
-//    if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
-//        bool is_shift = (mods & GLFW_MOD_SHIFT);
-//        zn += is_shift ? 0.5f : -0.5f;
-//    }
+const char *shader_type_as_cstr(GLuint shader)
+{
+    switch (shader) {
+    case GL_VERTEX_SHADER:
+        return "GL_VERTEX_SHADER";
+    case GL_FRAGMENT_SHADER:
+        return "GL_FRAGMENT_SHADER";
+    default:
+        return "(Unknown)";
+    }
 }
 
-void init_box()
+bool compile_shader_source(const GLchar *source, GLenum shader_type, GLuint *shader)
 {
-    
+    *shader = glCreateShader(shader_type);
+    glShaderSource(*shader, 1, &source, NULL);
+    glCompileShader(*shader);
+
+    GLint compiled = 0;
+    glGetShaderiv(*shader, GL_COMPILE_STATUS, &compiled);
+
+    if (!compiled) {
+        GLchar message[1024];
+        GLsizei message_size = 0;
+        glGetShaderInfoLog(*shader, sizeof(message), &message_size, message);
+        fprintf(stderr, "ERROR: could not compile %s\n", shader_type_as_cstr(shader_type));
+        fprintf(stderr, "%.*s\n", message_size, message);
+        return false;
+    }
+
+    return true;
+}
+
+bool compile_shader_file(const char *file_path, GLenum shader_type, GLuint *shader)
+{
+    String_Builder sb = {0};
+    if (!read_entire_file(file_path, &sb)) {
+        fprintf(stderr, "ERROR: failed to read file `%s`: %s\n", file_path, strerror(errno));
+        errno = 0;
+        return false;
+    }
+    char *source = (char *)temp_sv_to_cstr(sb_to_sv(sb));
+    bool ok = compile_shader_source(source, shader_type, shader);
+    if (!ok) {
+        fprintf(stderr, "ERROR: failed to compile `%s` shader file\n", file_path);
+    }
+    return ok;
+}
+
+bool link_program(GLuint vert_shader, GLuint frag_shader, GLuint *program)
+{
+    *program = glCreateProgram();
+
+    glAttachShader(*program, vert_shader);
+    glAttachShader(*program, frag_shader);
+    glLinkProgram(*program);
+
+    GLint linked = 0;
+    glGetProgramiv(*program, GL_LINK_STATUS, &linked);
+    if (!linked) {
+        GLsizei message_size = 0;
+        GLchar message[1024];
+
+        glGetProgramInfoLog(*program, sizeof(message), &message_size, message);
+        fprintf(stderr, "Program Linking: %.*s\n", message_size, message);
+    }
+
+    glDeleteShader(vert_shader);
+    glDeleteShader(frag_shader);
+
+    return program;
 }
 
 int main() {
@@ -96,7 +134,6 @@ int main() {
     }
 
     glfwMakeContextCurrent(window);
-    glfwSetKeyCallback(window, key_cb);
 
     if (glewInit() != GLEW_OK) {
         printf("GLEW failed\n");
@@ -142,58 +179,17 @@ int main() {
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(4 * sizeof(GLfloat)) );
     glEnableVertexAttribArray(1);
 
-    const char* vertexShaderSource =
-        "#version 330 core\n"
-        "layout (location = 0) in vec4 aPos;\n"
-        "layout (location = 1) in vec2 aTexCoord;\n"
+    GLuint vertext_shader;
+    GLuint fragment_shader;
 
-        "uniform mat4 mvc;\n"
+    compile_shader_file(vertext_shader_path, GL_VERTEX_SHADER, &vertext_shader);
+    compile_shader_file(fragment_shader_path, GL_FRAGMENT_SHADER, &fragment_shader);
 
-        "out vec3 color;\n"
-        "out vec2 texCoord;\n"
+    GLuint program;
+    link_program(vertext_shader, fragment_shader, &program);
 
-        "out vec3 vNDC;\n"
-        "void main() {\n"
-        "   vec4 clip = mvc * aPos;\n"
-        "   gl_Position = clip;\n"
-        "   vec3 ndc = clip.xyz / clip.w;\n"
-        "   vNDC = ndc;\n"
-        "   texCoord = aTexCoord;\n"
-        "}\0";
-
-    const char* fragmentShaderSource =
-        "#version 330 core\n"
-        "out vec4 FragColor;\n"
-
-        "in vec2 texCoord;\n"
-        "in vec3 vNDC;\n"
-
-        "uniform sampler2D ourTexture;\n"
-
-        "void main() {\n"
-        "   FragColor = texture(ourTexture, texCoord);\n"
-        "   // FragColor = vec4(clamp(vNDC, -1.0, 1.0) * 0.5 + 0.5, 1.0);\n" 
-        "   // FragColor = vec4(1.0, 0.0, 1.0, 1.0);\n" 
-        "}\0";
-
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    GLuint mvc_loc = glGetUniformLocation(shaderProgram, "mvc");
-    GLuint texture_loc = glGetUniformLocation(shaderProgram, "ourTexture");
+    GLuint mvc_loc = glGetUniformLocation(program, "mvc");
+    GLuint texture_loc = glGetUniformLocation(program, "ourTexture");
      
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -219,7 +215,7 @@ int main() {
         tmp = mdyn_mul(&arena, &tmp, &scale);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glUseProgram(shaderProgram);
+        glUseProgram(program);
 
         glBindTexture(GL_TEXTURE_2D, texture);
         glBindVertexArray(VAO);
