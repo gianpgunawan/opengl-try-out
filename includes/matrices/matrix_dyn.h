@@ -17,6 +17,8 @@ mat mdyn_transpose(Arena *arena, mat *a);
 mat mdyn_add(Arena *arena, mat *a, mat *b);
 mat mdyn_sub(Arena *arena, mat *a, mat *b);
 mat mdyn_hadamard(Arena *arena, mat *a, mat *b);
+mat mdyn_cross(Arena *arena, mat *a, mat *b);
+mat mdyn_normalize(Arena *arena, mat *a);
 mat mdyn_slice(Arena *arena, mat *a, size_t row1, size_t row2, size_t col1, size_t col2);
 mat mdyn_make_randomly_filled_mat(Arena *arena, size_t rows, size_t cols);
 mat mdyn_make_zero_filled_mat(Arena *arena, size_t rows, size_t cols);
@@ -58,7 +60,7 @@ mat mdyn_identity(Arena *arena, size_t rows, size_t cols)
     return m;
 }
 
-float *make_float_array(Arena *arena,int count, ...) {
+float *mdyn_make_float_array(Arena *arena,int count, ...) {
     va_list args;
     va_start(args, count);
     float *es = arena_alloc(arena, count * sizeof(float));
@@ -114,6 +116,20 @@ mat mdyn_hadamard(Arena *arena, mat *a, mat *b)
 {
     mat m = mdyn_make_mat(arena, a->rows, a->cols, a->es);
     mat_hadamard(a, b, &m);
+    return m;
+}
+
+mat mdyn_cross(Arena *arena, mat *a, mat *b)
+{
+    mat m = mdyn_make_zero_filled_mat(arena, 3, 1);
+    mat_cross(a, b, &m);
+    return m;
+}
+
+mat mdyn_normalize(Arena *arena, mat *a)
+{
+    mat m = mdyn_make_zero_filled_mat(arena, a->rows, a->cols);
+    mat_normalize(a, &m);
     return m;
 }
 

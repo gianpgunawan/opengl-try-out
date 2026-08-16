@@ -22,6 +22,7 @@ int mat_mul(mat *m1, mat *m2, mat *out);
 int mat_sub(mat *m1, mat *m2, mat *out);
 int mat_add(mat *m1, mat *m2, mat *out);
 int mat_hadamard(mat *m1, mat *m2, mat *out);
+void mat_cross(mat *m1, mat *m2, mat *out);
 void mat_map(mat *m1, float (*fn)(float), mat *out);
 void mat_mul_scalar(mat *m, float val, mat *out);
 void mat_transpose(mat *m, mat *out);
@@ -52,6 +53,30 @@ void mat_mul_scalar(mat *m, float val, mat *out)
             MAT_AT(out, i, j) *= val;
         }
     }
+}
+
+void mat_normalize(mat *m1, mat *out)
+{
+    ASSERT(m1->cols == 1, "Operators has to be Vector");
+    ASSERT(out->cols == m1->cols && out->rows == m1->rows, "mismatch vector size");
+    float total = 0;
+    for (size_t i = 0; i < m1->rows; ++i) {
+        total += MAT_AT(m1, i, 0)*MAT_AT(m1, i, 0);
+    }
+    total = sqrtf(total);
+    for (size_t i = 0; i < m1->rows; ++i) {
+        MAT_AT(out, i, 0) = MAT_AT(m1, i, 0)/total;
+    }
+}
+
+void mat_cross(mat *m1, mat *m2, mat *out)
+{
+    ASSERT(m1->cols == 1 && m1->rows == 3, "Operators has to be V3");
+    ASSERT(m2->cols == 1 && m2->rows == 3, "Operators has to be V3");
+    ASSERT(out->cols == 1 && out->rows == 3, "Operators has to be V3");
+    MAT_AT(out, 0, 0) = MAT_AT(m1, 1, 0) * MAT_AT(m2, 2, 0) - MAT_AT(m1, 2, 0) * MAT_AT(m2, 1, 0);
+    MAT_AT(out, 1, 0) = MAT_AT(m1, 2, 0) * MAT_AT(m2, 0, 0) - MAT_AT(m1, 0, 0) * MAT_AT(m2, 2, 0);
+    MAT_AT(out, 2, 0) = MAT_AT(m1, 0, 0) * MAT_AT(m2, 1, 0) - MAT_AT(m1, 1, 0) * MAT_AT(m2, 0, 0);
 }
 
 void mat_fill_func(mat *m, float (*func)())

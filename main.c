@@ -7,6 +7,7 @@
 #include <GLFW/glfw3.h>
 
 #define ARENA_IMPLEMENTATION
+#define CAMERA_IMPLEMENTATION
 #define MATRIX_IMPLEMENTATION
 #define MATRIX_DYN_IMPLEMENTATION
 #define MAT_PIPELINE_HELPER_IMPLEMENTATION
@@ -16,6 +17,7 @@
 
 #include "arena.h"
 #include "box.h"
+#include "camera.h"
 #include "matrices/matrix.h"
 #include "matrices/matrix_dyn.h"
 #include "matrices/mat_pipeline_helper.h"
@@ -32,8 +34,7 @@ const char *fragment_shader_path = "./shaders/texture.frag";
 #define WIDTH 800
 #define HEIGHT 600
 
-#define ARENA_SIZE 256 * 1024 * 1024
-Arena arena = {0};
+Camera camera = {0};
 
 #define N 0.1f
 #define F 100.0f
@@ -45,6 +46,7 @@ int x, y, n_channels;
 float n_deg = 0.0f;
 
 extern float vertices[];
+
 
 static inline float degree_to_radian(float degree)
 {
@@ -161,6 +163,14 @@ static void key_cb(GLFWwindow* window, int key, int scancode, int action, int mo
 int main()
 {
     arena_init(&arena, ARENA_SIZE);
+    camera_init(&camera, &arena);
+
+    mat_print(&camera.pos);
+    mat_print(&camera.direction);
+    mat_print(&camera.right);
+    mat_print(&camera.up);
+    exit(1);
+    
     if (!glfwInit()) return -1;
 
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Hello world", NULL, NULL);
