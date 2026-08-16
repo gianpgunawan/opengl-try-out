@@ -7,11 +7,8 @@ uniform mat4 mvc;
 out vec3 color;
 out vec2 texCoord;
 
-out vec3 vNDC;
 void main() {
    vec4 clip = mvc * aPos;
    gl_Position = clip;
-   vec3 ndc = clip.xyz / clip.w;
-   vNDC = ndc;
    texCoord = aTexCoord;
 };

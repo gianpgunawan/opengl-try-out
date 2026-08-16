@@ -11,6 +11,7 @@
 #define MATRIX_DYN_IMPLEMENTATION
 #define MAT_PIPELINE_HELPER_IMPLEMENTATION
 #define NOB_IMPLEMENTATION
+#define RENDERER_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "arena.h"
@@ -19,9 +20,11 @@
 #include "matrices/matrix_dyn.h"
 #include "matrices/mat_pipeline_helper.h"
 #include "nob.h"
+#include "renderer.h"
 #include "thirdparty/stb_image.h"
 
-#define TEXTURE_FILE_NAME "./assets/wall.jpg"
+#define TEXTURE0_FILE_NAME "./assets/wall.jpg"
+#define TEXTURE1_FILE_NAME "./assets/scenery.jpg"
 
 const char *vertext_shader_path = "./shaders/box.vert";
 const char *fragment_shader_path = "./shaders/texture.frag";
@@ -43,42 +46,19 @@ float n_deg = 0.0f;
 
 extern float vertices[];
 
-typedef struct {
-    GLuint vbo;
-    GLuint vao;
-} Renderer;
-
-void renderer_set_vertex(Renderer *r, float *vertex, size_t vertex_size)
-{
-    glGenBuffers(1, &(r->vbo));
-    glBindBuffer(GL_ARRAY_BUFFER, r->vbo);
-    glBufferData(GL_ARRAY_BUFFER,
-                 vertex_size,
-                 vertex,
-                 GL_DYNAMIC_DRAW);
-
-    glGenVertexArrays(1, &(r->vao));
-    glBindVertexArray(r->vao);
-    glVertexAttribPointer(0,
-                          4,
-                          GL_FLOAT,
-                          GL_FALSE,
-                          6 * sizeof(float),
-                          (GLvoid*)0);
-    glEnableVertexAttribArray(0);
-
-    glVertexAttribPointer(1,
-                          2,
-                          GL_FLOAT,
-                          GL_FALSE,
-                          6 * sizeof(float),
-                          (GLvoid*)(4 * sizeof(GLfloat)) );
-    glEnableVertexAttribArray(1);
-}
-
 static inline float degree_to_radian(float degree)
 {
     return degree / 360.0f * (2.0f * M_PI);
+}
+
+void load_image(uint8_t **buffer, int *x, int *y, int *n_channels, const char *file_path)
+{
+    *buffer = NULL;
+    *buffer = stbi_load(file_path, x, y, n_channels, 0);
+    if (buffer == NULL) {
+        fprintf(stderr, "Failed to load image: %s\n", file_path);
+        exit(1);
+    }
 }
 
 const char *shader_type_as_cstr(GLuint shader)
@@ -156,7 +136,9 @@ bool link_program(GLuint vert_shader, GLuint frag_shader, GLuint *program)
 
 static void key_cb(GLFWwindow* window, int key, int scancode, int action, int mods) {
     bool is_shift = (mods & GLFW_MOD_SHIFT);
-
+    (void)window;
+    (void)is_shift;
+    (void)scancode;
     if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
     }
 
@@ -198,34 +180,21 @@ int main()
     Renderer renderer = {0};
     renderer_set_vertex(&renderer, vertices, sizeof(vertices));
 
-    GLuint texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    load_image(&buffer, &x, &y, &n_channels, TEXTURE0_FILE_NAME);
+    renderer_set_texture0(&renderer, buffer, x, y);
+    stbi_image_free(buffer);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    buffer = stbi_load(TEXTURE_FILE_NAME, &x, &y, &n_channels, 0);
-    if (buffer) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    } else {
-        printf("Failed to load image\n");
-    }
+    load_image(&buffer, &x, &y, &n_channels, TEXTURE1_FILE_NAME);
+    renderer_set_texture1(&renderer, buffer, x, y);
+    stbi_image_free(buffer);
 
     GLuint vertext_shader;
     GLuint fragment_shader;
-
     compile_shader_file(vertext_shader_path, GL_VERTEX_SHADER, &vertext_shader);
     compile_shader_file(fragment_shader_path, GL_FRAGMENT_SHADER, &fragment_shader);
 
     GLuint program;
     link_program(vertext_shader, fragment_shader, &program);
-
-    GLuint mvc_loc = glGetUniformLocation(program, "mvc");
-    GLuint texture_loc = glGetUniformLocation(program, "ourTexture");
      
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -234,8 +203,6 @@ int main()
     mat scale = mat_scaling(&arena, 2.0f);
     mat proj = mat_projection(&arena, F, N, T, R);
     mat trans = mat_translation(&arena, 0.0f, 0.0f, -3.0f);
-
-    printf("VAO => %u, VBO => %u\n", renderer.vao, renderer.vbo);
 
     while (!glfwWindowShouldClose(window)) {
         size_t checkpoint = arena.count;
@@ -255,15 +222,19 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(program);
 
-        glBindTexture(GL_TEXTURE_2D, texture);
         glBindVertexArray(renderer.vao);
+        glUniformMatrix4fv(glGetUniformLocation(program, "mvc"),
+                           1,
+                           GL_TRUE,
+                           tmp.es);
 
-        glUniformMatrix4fv(mvc_loc, 1, GL_TRUE, tmp.es);
-        arena_reset_to(&arena, checkpoint);
-
-        glUniform1i(texture_loc, 0);
+        glUniform1i(glGetUniformLocation(program, "brick"),
+                    0);
+        glUniform1i(glGetUniformLocation(program, "scenery"),
+                    1);
 
         glDrawArrays(GL_TRIANGLES, 0, 36);
+        arena_reset_to(&arena, checkpoint);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
