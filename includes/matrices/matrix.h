@@ -23,6 +23,7 @@ int mat_sub(mat *m1, mat *m2, mat *out);
 int mat_add(mat *m1, mat *m2, mat *out);
 int mat_hadamard(mat *m1, mat *m2, mat *out);
 void mat_cross(mat *m1, mat *m2, mat *out);
+float mat_dot(mat *m1, mat *m2);
 void mat_map(mat *m1, float (*fn)(float), mat *out);
 void mat_mul_scalar(mat *m, float val, mat *out);
 void mat_transpose(mat *m, mat *out);
@@ -79,6 +80,16 @@ void mat_cross(mat *m1, mat *m2, mat *out)
     MAT_AT(out, 2, 0) = MAT_AT(m1, 0, 0) * MAT_AT(m2, 1, 0) - MAT_AT(m1, 1, 0) * MAT_AT(m2, 0, 0);
 }
 
+float mat_dot(mat *m1, mat *m2)
+{
+    ASSERT(m1->cols == 1 && m2->cols == 1 && m1->rows == m2->rows, "Operators have to be vectors");
+    float total = 0;
+    for (size_t i = 0; i < m1->rows; ++i) {
+        total += MAT_AT(m1, i, 0) * MAT_AT(m2, i, 0);
+    }
+    return total;
+}
+
 void mat_fill_func(mat *m, float (*func)())
 {
     for (size_t i = 0; i < m->rows; ++i) {
@@ -100,7 +111,9 @@ int mat_mul(mat *m1, mat *m2, mat *out)
         for (size_t j = 0; j < m2->cols; ++j) {
             DATA_TYPE sum = 0;
             for (size_t k = 0; k < m2->rows; ++k) {
-                sum += MAT_AT(m1, i, k) * MAT_AT(m2, k, j);
+                DATA_TYPE val1 = MAT_AT(m1, i, k);
+                DATA_TYPE val2 = MAT_AT(m2, k, j);
+                sum += val1 * val2;
             }
             MAT_AT(out, i, j) = sum;
         }

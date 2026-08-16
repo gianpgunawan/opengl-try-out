@@ -87,9 +87,8 @@ mat mdyn_make_out(Arena *arena, mat *m1, mat *m2)
     ASSERT(m2 != NULL, "m2 is NULL");
     size_t r = m1->rows;
     size_t c = m2->cols;
-    return mdyn_make_mat(arena,r, c, (float[]){0});
+    return mdyn_make_mat(arena, r, c, (float[]){0});
 }
-
 
 mat mdyn_transpose(Arena *arena, mat *a)
 {

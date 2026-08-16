@@ -34,6 +34,9 @@ const char *fragment_shader_path = "./shaders/texture.frag";
 #define WIDTH 800
 #define HEIGHT 600
 
+#define ARENA_SIZE 256 * 1024 * 1024
+Arena arena = {0};
+
 Camera camera = {0};
 
 #define N 0.1f
@@ -144,19 +147,20 @@ static void key_cb(GLFWwindow* window, int key, int scancode, int action, int mo
     if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
     }
 
-    if (key == GLFW_KEY_R && action == GLFW_PRESS) {
+    if (key == GLFW_KEY_W && action == GLFW_PRESS) {
+        MAT_AT(&camera.eye, 2, 0) += 0.2f;
     }
 
-    if (key == GLFW_KEY_P && action == GLFW_PRESS) {
+    if (key == GLFW_KEY_S && action == GLFW_PRESS) {
+        MAT_AT(&camera.eye, 2, 0) -= 0.2f;
     }
 
-    if (key == GLFW_KEY_X && action == GLFW_PRESS) {
+    if (key == GLFW_KEY_A && action == GLFW_PRESS) {
+        MAT_AT(&camera.eye, 0, 0) -= 0.2f;
     }
 
-    if (key == GLFW_KEY_Y && action == GLFW_PRESS) {
-    }
-
-    if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
+    if (key == GLFW_KEY_D && action == GLFW_PRESS) {
+        MAT_AT(&camera.eye, 0, 0) += 0.2f;
     }
 }
 
@@ -165,12 +169,6 @@ int main()
     arena_init(&arena, ARENA_SIZE);
     camera_init(&camera, &arena);
 
-    mat_print(&camera.pos);
-    mat_print(&camera.direction);
-    mat_print(&camera.right);
-    mat_print(&camera.up);
-    exit(1);
-    
     if (!glfwInit()) return -1;
 
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Hello world", NULL, NULL);
@@ -212,8 +210,8 @@ int main()
 
     mat scale = mat_scaling(&arena, 2.0f);
     mat proj = mat_projection(&arena, F, N, T, R);
-    mat trans = mat_translation(&arena, 0.0f, 0.0f, -3.0f);
-
+    // mat trans = mat_translation(&arena, 0.0f, 0.0f, -3.0f);
+    
     while (!glfwWindowShouldClose(window)) {
         size_t checkpoint = arena.count;
 
@@ -223,9 +221,10 @@ int main()
         mat rot_x = mat_rotate(&arena, degree, MAT_ROTATE_X);
         mat rot_z = mat_rotate(&arena, degree, MAT_ROTATE_Z);
 
-        mat tmp = mdyn_mul(&arena, &proj, &trans);
-        tmp = mdyn_mul(&arena, &tmp, &rot_x);
-        tmp = mdyn_mul(&arena, &tmp, &rot_y);
+        mat view = mat_look_at(&arena, &camera.eye, &camera.center, &camera.up);
+        mat tmp = mdyn_mul(&arena, &proj, &view);
+//        tmp = mdyn_mul(&arena, &tmp, &rot_x);
+//        tmp = mdyn_mul(&arena, &tmp, &rot_y);
         tmp = mdyn_mul(&arena, &tmp, &rot_z);
         tmp = mdyn_mul(&arena, &tmp, &scale);
 
