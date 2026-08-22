@@ -66,6 +66,17 @@ void load_image(uint8_t **buffer, int *x, int *y, int *n_channels, const char *f
     }
 }
 
+void print_bits(uint64_t n)
+{
+    size_t sz = sizeof(uint64_t) * 8;
+    uint8_t bit;
+    for (int i = 1; i < sz + 1; ++i) {
+        bit = (n & (1ULL << (sz - i))) > 0 ? 1 : 0;
+        printf("%u", bit);
+    }
+    printf("\n");
+}
+
 const char *shader_type_as_cstr(GLuint shader)
 {
     switch (shader) {
@@ -139,27 +150,80 @@ bool link_program(GLuint vert_shader, GLuint frag_shader, GLuint *program)
     return program;
 }
 
+#define MOVEMENT_FORWARD (1ULL << 1)
+#define MOVEMENT_BACKWARD (1ULL << 2)
+#define MOVEMENT_RIGHT (1ULL << 3)
+#define MOVEMENT_LEFT (1ULL << 4)
+#define MOVEMENT_UP (1ULL << 5)
+#define MOVEMENT_DOWN (1ULL << 6)
+
+uint64_t get_movement(int key, int action, int mods)
+{
+    static uint8_t state = 0;
+    int is_shift = mods & GLFW_MOD_SHIFT;
+
+    if (key == GLFW_KEY_W) {
+        if (action == GLFW_PRESS) {
+            state |= is_shift ? MOVEMENT_UP : MOVEMENT_FORWARD;
+        } else if (action == GLFW_RELEASE){
+            state &= is_shift ? ~MOVEMENT_UP : ~MOVEMENT_FORWARD;
+        }
+    }
+
+    if (key == GLFW_KEY_S) {
+        if (action == GLFW_PRESS) {
+            state |= is_shift ? MOVEMENT_DOWN : MOVEMENT_BACKWARD;
+        } else if (action == GLFW_RELEASE) {
+            state &= is_shift ? ~MOVEMENT_DOWN : ~MOVEMENT_BACKWARD;
+        }
+    }
+
+    if (key == GLFW_KEY_A) {
+        if (action == GLFW_PRESS) {
+            state |= MOVEMENT_LEFT;
+        } else if (action == GLFW_RELEASE) {
+            state &= ~MOVEMENT_LEFT;
+        }
+    }
+
+    if (key == GLFW_KEY_D) {
+        if (action == GLFW_PRESS) {
+            state |= MOVEMENT_RIGHT;
+        } else if (action == GLFW_RELEASE){
+            state &= ~MOVEMENT_RIGHT;
+        }
+    }
+
+    return state;
+}
+
 static void key_cb(GLFWwindow* window, int key, int scancode, int action, int mods) {
     bool is_shift = (mods & GLFW_MOD_SHIFT);
     (void)window;
-    (void)is_shift;
     (void)scancode;
-    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+
+    uint64_t mov = get_movement(key, action, mods);
+    if (mov & MOVEMENT_UP) {
+        MAT_AT(&camera.eye, 1, 0) += 0.2f;
     }
 
-    if (key == GLFW_KEY_W && action == GLFW_PRESS) {
-        MAT_AT(&camera.eye, 2, 0) += 0.2f;
-    }
-
-    if (key == GLFW_KEY_S && action == GLFW_PRESS) {
+    if (mov & MOVEMENT_FORWARD) {
         MAT_AT(&camera.eye, 2, 0) -= 0.2f;
     }
 
-    if (key == GLFW_KEY_A && action == GLFW_PRESS) {
+    if (mov & MOVEMENT_DOWN) {
+        MAT_AT(&camera.eye, 1, 0) -= 0.2f;
+    }
+
+    if (mov & MOVEMENT_BACKWARD) {
+        MAT_AT(&camera.eye, 2, 0) += 0.2f;
+    }
+
+    if (mov & MOVEMENT_LEFT) {
         MAT_AT(&camera.eye, 0, 0) -= 0.2f;
     }
 
-    if (key == GLFW_KEY_D && action == GLFW_PRESS) {
+    if (mov & MOVEMENT_RIGHT) {
         MAT_AT(&camera.eye, 0, 0) += 0.2f;
     }
 }
@@ -210,7 +274,7 @@ int main()
 
     mat scale = mat_scaling(&arena, 2.0f);
     mat proj = mat_projection(&arena, F, N, T, R);
-    // mat trans = mat_translation(&arena, 0.0f, 0.0f, -3.0f);
+    mat trans = mat_translation(&arena, 0.0f, 0.0f, -3.0f);
     
     while (!glfwWindowShouldClose(window)) {
         size_t checkpoint = arena.count;
