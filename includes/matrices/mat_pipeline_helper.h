@@ -80,14 +80,14 @@ mat mat_rotate(Arena *arena, float degree, Mat_Rotate orientation)
     float sin_val = sin(degree);
 
     switch (orientation) {
-    case MAT_ROTATE_Y:
+    case MAT_ROTATE_X:
         return mdyn_make_mat(arena, 4, 4, (float[]){
             1.0f, 0.0f, 0.0f, 0.0f,
             0.0f, cos_val, -sin_val, 0.0f,
             0.0f, sin_val, cos_val, 0.0f,
             0.0f, 0.0f, 0.0f, 1.0f
         });
-    case MAT_ROTATE_X:
+    case MAT_ROTATE_Y:
         return mdyn_make_mat(arena, 4, 4, (float[]){
             cos_val, 0.0f, sin_val, 0.0f,
             0.0f, 1.0f, 0.0f, 0.0f,

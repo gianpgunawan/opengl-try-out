@@ -17,7 +17,7 @@ void camera_init(Camera *c, Arena *arena);
 void camera_init(Camera *c, Arena *arena)
 {
     c->eye = mdyn_make_mat(arena, 3, 1, (float[]){0.0f, 0.0f, 3.0f});
-    c->center = mdyn_make_mat(arena, 3, 1, (float[]){0.0f, 0.0f, 0.0f});
+    c->center = mdyn_make_mat(arena, 3, 1, (float[]){0.0f, 0.0f, -3.0f});
     c->up = mdyn_make_mat(arena, 3, 1, (float[]){0.0f, 1.0f, 0.0f});
 }
 

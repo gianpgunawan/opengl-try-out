@@ -21,6 +21,7 @@
 #include "matrices/matrix.h"
 #include "matrices/matrix_dyn.h"
 #include "matrices/mat_pipeline_helper.h"
+#include "mouse.h"
 #include "nob.h"
 #include "renderer.h"
 #include "thirdparty/stb_image.h"
@@ -38,6 +39,7 @@ const char *fragment_shader_path = "./shaders/texture.frag";
 Arena arena = {0};
 
 Camera camera = {0};
+Mouse mouse = {0};
 
 #define N 0.1f
 #define F 100.0f
@@ -46,7 +48,6 @@ Camera camera = {0};
 
 uint8_t *buffer;
 int x, y, n_channels;
-float n_deg = 0.0f;
 
 extern float vertices[];
 
@@ -66,12 +67,12 @@ void load_image(uint8_t **buffer, int *x, int *y, int *n_channels, const char *f
     }
 }
 
-void print_bits(uint64_t n)
+void print_bits(uint8_t n)
 {
-    size_t sz = sizeof(uint64_t) * 8;
+    size_t sz = sizeof(uint8_t) * 8;
     uint8_t bit;
-    for (int i = 1; i < sz + 1; ++i) {
-        bit = (n & (1ULL << (sz - i))) > 0 ? 1 : 0;
+    for (size_t i = 1; i < sz + 1; ++i) {
+        bit = (n & (1U << (sz - i))) > 0 ? 1 : 0;
         printf("%u", bit);
     }
     printf("\n");
@@ -150,12 +151,12 @@ bool link_program(GLuint vert_shader, GLuint frag_shader, GLuint *program)
     return program;
 }
 
-#define MOVEMENT_FORWARD (1ULL << 1)
-#define MOVEMENT_BACKWARD (1ULL << 2)
-#define MOVEMENT_RIGHT (1ULL << 3)
-#define MOVEMENT_LEFT (1ULL << 4)
-#define MOVEMENT_UP (1ULL << 5)
-#define MOVEMENT_DOWN (1ULL << 6)
+#define MOVEMENT_FORWARD (1U << 1)
+#define MOVEMENT_BACKWARD (1U << 2)
+#define MOVEMENT_RIGHT (1U << 3)
+#define MOVEMENT_LEFT (1U << 4)
+#define MOVEMENT_UP (1U << 5)
+#define MOVEMENT_DOWN (1U << 6)
 
 uint64_t get_movement(int key, int action, int mods)
 {
@@ -166,7 +167,7 @@ uint64_t get_movement(int key, int action, int mods)
         if (action == GLFW_PRESS) {
             state |= is_shift ? MOVEMENT_UP : MOVEMENT_FORWARD;
         } else if (action == GLFW_RELEASE){
-            state &= is_shift ? ~MOVEMENT_UP : ~MOVEMENT_FORWARD;
+            state &= ~(MOVEMENT_UP | MOVEMENT_FORWARD);
         }
     }
 
@@ -174,7 +175,7 @@ uint64_t get_movement(int key, int action, int mods)
         if (action == GLFW_PRESS) {
             state |= is_shift ? MOVEMENT_DOWN : MOVEMENT_BACKWARD;
         } else if (action == GLFW_RELEASE) {
-            state &= is_shift ? ~MOVEMENT_DOWN : ~MOVEMENT_BACKWARD;
+            state &= ~(MOVEMENT_DOWN | MOVEMENT_BACKWARD);
         }
     }
 
@@ -197,8 +198,48 @@ uint64_t get_movement(int key, int action, int mods)
     return state;
 }
 
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
+    (void)window;
+    static float lastx = WIDTH/2;
+    static float lasty = HEIGHT/2;
+    static float pitch = 0.0f;
+    static float yaw = 0.0f;
+
+    double xoffset = lastx - xpos;
+    double yoffset = lasty - ypos;
+
+    yaw += (float)xoffset/5.0f;
+    pitch += (float)yoffset/5.0f;
+
+    yaw = yaw > 89.0 ? 89.0 : yaw;
+    yaw = yaw < -89.0 ? -89.0 : yaw;
+    pitch = pitch > 89.0 ? 89.0 : pitch;
+    pitch = pitch < -89.0 ? -89.0 : pitch;
+
+    mat rot_y = mat_rotate(&arena, degree_to_radian(yaw), MAT_ROTATE_Y);
+    mat rot_x = mat_rotate(&arena, degree_to_radian(pitch), MAT_ROTATE_X);
+
+    size_t mark = arena.count;
+
+    mat center = mdyn_make_mat(&arena, 4, 1, (float[]){ 
+            MAT_AT(&camera.eye, 0, 0),
+            MAT_AT(&camera.eye, 1, 0),
+            -20.0f,
+            1.0f
+        });
+    center = mdyn_mul(&arena, &rot_x, &center);
+    center = mdyn_mul(&arena, &rot_y, &center);
+
+    MAT_AT(&camera.center, 0, 0) = MAT_AT(&center, 0, 0);
+    MAT_AT(&camera.center, 1, 0) = MAT_AT(&center, 1, 0);
+    MAT_AT(&camera.center, 2, 0) = MAT_AT(&center, 2, 0);
+    
+    arena_reset_to(&arena, mark);
+    lastx = xpos;
+    lasty = ypos;
+}
+
 static void key_cb(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    bool is_shift = (mods & GLFW_MOD_SHIFT);
     (void)window;
     (void)scancode;
 
@@ -226,6 +267,9 @@ static void key_cb(GLFWwindow* window, int key, int scancode, int action, int mo
     if (mov & MOVEMENT_RIGHT) {
         MAT_AT(&camera.eye, 0, 0) += 0.2f;
     }
+
+    mat_print(&camera.eye);
+    print_bits(mov);
 }
 
 int main()
@@ -243,6 +287,7 @@ int main()
 
     glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, key_cb);
+    glfwSetCursorPosCallback(window, cursor_position_callback);
 
     if (glewInit() != GLEW_OK) {
         printf("GLEW failed\n");
@@ -274,22 +319,15 @@ int main()
 
     mat scale = mat_scaling(&arena, 2.0f);
     mat proj = mat_projection(&arena, F, N, T, R);
-    mat trans = mat_translation(&arena, 0.0f, 0.0f, -3.0f);
+    // mat trans = mat_translation(&arena, 0.0f, 0.0f, -3.0f);
     
     while (!glfwWindowShouldClose(window)) {
+        double x, y;
+        glfwGetCursorPos(window, &x, &y);
         size_t checkpoint = arena.count;
-
-        n_deg += 0.1f;
-        float degree = degree_to_radian(n_deg);
-        mat rot_y = mat_rotate(&arena, degree, MAT_ROTATE_Y);
-        mat rot_x = mat_rotate(&arena, degree, MAT_ROTATE_X);
-        mat rot_z = mat_rotate(&arena, degree, MAT_ROTATE_Z);
-
+                
         mat view = mat_look_at(&arena, &camera.eye, &camera.center, &camera.up);
         mat tmp = mdyn_mul(&arena, &proj, &view);
-//        tmp = mdyn_mul(&arena, &tmp, &rot_x);
-//        tmp = mdyn_mul(&arena, &tmp, &rot_y);
-        tmp = mdyn_mul(&arena, &tmp, &rot_z);
         tmp = mdyn_mul(&arena, &tmp, &scale);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
