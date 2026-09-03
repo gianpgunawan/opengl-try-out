@@ -48,16 +48,16 @@ void camera_move(Camera *c, Camera_Movement mov, float steps)
     switch (mov) {
         case CAM_MOV_FWD: {
             size_t mark = c->arena->count;
-            mat diff = mdyn_sub(c->arena, &c->eye, &c->center);
-            mat norm = mdyn_normalize(c->arena, &diff);
+            mat diff = mdyn_sub(c->arena, c->eye, c->center);
+            mat norm = mdyn_normalize(c->arena, diff);
             mat_mul_scalar(&norm, steps, &norm);
             mat_sub(&c->eye, &norm, &c->eye);
             arena_reset_to(c->arena, mark);
         } break;
         case CAM_MOV_BWD: {
             size_t mark = c->arena->count;
-            mat diff = mdyn_sub(c->arena, &c->eye, &c->center);
-            mat norm = mdyn_normalize(c->arena, &diff);
+            mat diff = mdyn_sub(c->arena, c->eye, c->center);
+            mat norm = mdyn_normalize(c->arena, diff);
             mat_mul_scalar(&norm, steps, &norm);
             mat_add(&c->eye, &norm, &c->eye);
             arena_reset_to(c->arena, mark);
@@ -80,8 +80,8 @@ void camera_turn(Camera *c)
             -MAT_AT(&c->eye, 2, 0)*10,
             1.0f
         });
-    center = mdyn_mul(c->arena, &rot_x, &center);
-    center = mdyn_mul(c->arena, &rot_y, &center);
+    center = mdyn_mul(c->arena, rot_x, center);
+    center = mdyn_mul(c->arena, rot_y, center);
 
     MAT_AT(&c->center, 0, 0) = MAT_AT(&center, 0, 0);
     MAT_AT(&c->center, 1, 0) = MAT_AT(&center, 1, 0);

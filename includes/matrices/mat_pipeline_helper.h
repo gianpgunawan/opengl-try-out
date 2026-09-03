@@ -26,12 +26,12 @@ mat mat_look_at(Arena *arena, mat *eye, mat *center, mat *up)
     mat pos = *eye;
     mat up_by_respect_to_worldspace = *up;
 
-    mat direction_unnormalized = mdyn_sub(arena, &pos, &target);
-    mat direction = mdyn_normalize(arena, &direction_unnormalized);
+    mat direction_unnormalized = mdyn_sub(arena, pos, target);
+    mat direction = mdyn_normalize(arena, direction_unnormalized);
     
-    mat right_unnormalized = mdyn_cross(arena, &up_by_respect_to_worldspace, &direction);
-    mat right = mdyn_normalize(arena, &right_unnormalized);
-    mat up_by_respect_to_the_eye = mdyn_cross(arena, &direction, &right);
+    mat right_unnormalized = mdyn_cross(arena, up_by_respect_to_worldspace, direction);
+    mat right = mdyn_normalize(arena, right_unnormalized);
+    mat up_by_respect_to_the_eye = mdyn_cross(arena, direction, right);
 
     float view_es[] = {
       MAT_AT(&right, 0, 0), MAT_AT(&right, 1, 0), MAT_AT(&right, 2, 0), -mat_dot(&right, &pos),

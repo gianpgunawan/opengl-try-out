@@ -324,8 +324,8 @@ int main()
         size_t checkpoint = arena.count;
                 
         mat view = mat_look_at(&arena, &camera.eye, &camera.center, &camera.up);
-        mat tmp = mdyn_mul(&arena, &proj, &view);
-        tmp = mdyn_mul(&arena, &tmp, &scale);
+        mat tmp = mdyn_mul(&arena, proj, view);
+        tmp = mdyn_mul(&arena, tmp, scale);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(program);
