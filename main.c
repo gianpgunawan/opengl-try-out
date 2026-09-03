@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdbool.h>
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -198,58 +197,55 @@ uint64_t get_movement(int key, int action, int mods)
     return state;
 }
 
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+    (void)window;
+    (void)mods;
+    if (button == GLFW_MOUSE_BUTTON_LEFT) {
+        if (action == GLFW_PRESS) {
+            mouse.is_dragging = true;
+            glfwGetCursorPos(window, &mouse.last_x, &mouse.last_y);
+        } else if (action == GLFW_RELEASE) {
+            mouse.is_dragging = false;
+        }
+    }
+}
+
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
     (void)window;
-    static float lastx = WIDTH/2;
-    static float lasty = HEIGHT/2;
-    static float pitch = 0.0f;
-    static float yaw = 0.0f;
 
-    double xoffset = lastx - xpos;
-    double yoffset = lasty - ypos;
+    if (mouse.is_dragging) {
+        double xoffset = xpos - mouse.last_x;
+        double yoffset = ypos - mouse.last_y;
 
-    yaw += (float)xoffset/5.0f;
-    pitch += (float)yoffset/5.0f;
+        // So that the the yaw and pitch do not move to much
+        camera.yaw += degree_to_radian((float)xoffset/5.0f);
+        camera.pitch += degree_to_radian((float)yoffset/5.0f);
 
-    yaw = yaw > 89.0 ? 89.0 : yaw;
-    yaw = yaw < -89.0 ? -89.0 : yaw;
-    pitch = pitch > 89.0 ? 89.0 : pitch;
-    pitch = pitch < -89.0 ? -89.0 : pitch;
+        camera.yaw = camera.yaw > 89.0 ? 89.0 : camera.yaw;
+        camera.yaw = camera.yaw < -89.0 ? -89.0 : camera.yaw;
+        camera.pitch = camera.pitch > 89.0 ? 89.0 : camera.pitch;
+        camera.pitch = camera.pitch < -89.0 ? -89.0 : camera.pitch;
 
-    mat rot_y = mat_rotate(&arena, degree_to_radian(yaw), MAT_ROTATE_Y);
-    mat rot_x = mat_rotate(&arena, degree_to_radian(pitch), MAT_ROTATE_X);
+        camera_turn(&camera);
+    }
 
-    size_t mark = arena.count;
-
-    mat center = mdyn_make_mat(&arena, 4, 1, (float[]){ 
-            MAT_AT(&camera.eye, 0, 0),
-            MAT_AT(&camera.eye, 1, 0),
-            -20.0f,
-            1.0f
-        });
-    center = mdyn_mul(&arena, &rot_x, &center);
-    center = mdyn_mul(&arena, &rot_y, &center);
-
-    MAT_AT(&camera.center, 0, 0) = MAT_AT(&center, 0, 0);
-    MAT_AT(&camera.center, 1, 0) = MAT_AT(&center, 1, 0);
-    MAT_AT(&camera.center, 2, 0) = MAT_AT(&center, 2, 0);
-    
-    arena_reset_to(&arena, mark);
-    lastx = xpos;
-    lasty = ypos;
+    mouse.last_x = xpos;
+    mouse.last_y = ypos;
 }
 
 static void key_cb(GLFWwindow* window, int key, int scancode, int action, int mods) {
     (void)window;
     (void)scancode;
 
+    float steps = 0.2f;
     uint64_t mov = get_movement(key, action, mods);
     if (mov & MOVEMENT_UP) {
         MAT_AT(&camera.eye, 1, 0) += 0.2f;
     }
 
     if (mov & MOVEMENT_FORWARD) {
-        MAT_AT(&camera.eye, 2, 0) -= 0.2f;
+        // MAT_AT(&camera.eye, 2, 0) -= 0.2f;
+        camera_move(&camera, CAM_MOV_FWD, steps);
     }
 
     if (mov & MOVEMENT_DOWN) {
@@ -257,7 +253,8 @@ static void key_cb(GLFWwindow* window, int key, int scancode, int action, int mo
     }
 
     if (mov & MOVEMENT_BACKWARD) {
-        MAT_AT(&camera.eye, 2, 0) += 0.2f;
+        // MAT_AT(&camera.eye, 2, 0) += 0.2f;
+        camera_move(&camera, CAM_MOV_BWD, steps);
     }
 
     if (mov & MOVEMENT_LEFT) {
@@ -267,15 +264,14 @@ static void key_cb(GLFWwindow* window, int key, int scancode, int action, int mo
     if (mov & MOVEMENT_RIGHT) {
         MAT_AT(&camera.eye, 0, 0) += 0.2f;
     }
-
-    mat_print(&camera.eye);
-    print_bits(mov);
 }
 
 int main()
 {
     arena_init(&arena, ARENA_SIZE);
     camera_init(&camera, &arena);
+    mouse.last_x = WIDTH/2.0f;
+    mouse.last_y = HEIGHT/2.0f;
 
     if (!glfwInit()) return -1;
 
@@ -287,6 +283,7 @@ int main()
 
     glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, key_cb);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
 
     if (glewInit() != GLEW_OK) {

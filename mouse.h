@@ -6,7 +6,7 @@
 typedef struct {
     double last_x;
     double last_y;
-    bool is_drag;
+    bool is_dragging;
 } Mouse;
 
 void mouse_init(Mouse *m);
