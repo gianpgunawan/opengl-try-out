@@ -217,14 +217,16 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
         double xoffset = xpos - mouse.last_x;
         double yoffset = ypos - mouse.last_y;
 
-        // So that the the yaw and pitch do not move to much
-        camera.yaw += degree_to_radian((float)xoffset/5.0f);
-        camera.pitch += degree_to_radian((float)yoffset/5.0f);
+        if (MAT_AT(&camera.eye, 2, 0) < 0) {
+            xoffset *= -1;
+            yoffset *= -1;
+        }
 
-        camera.yaw = camera.yaw > 89.0 ? 89.0 : camera.yaw;
-        camera.yaw = camera.yaw < -89.0 ? -89.0 : camera.yaw;
-        camera.pitch = camera.pitch > 89.0 ? 89.0 : camera.pitch;
-        camera.pitch = camera.pitch < -89.0 ? -89.0 : camera.pitch;
+        camera.yaw += degree_to_radian((float)xoffset/10.0f);
+        camera.pitch += degree_to_radian((float)yoffset/10.0f);
+
+        camera.yaw += degree_to_radian((float)xoffset/10.0f);
+        camera.pitch += degree_to_radian((float)yoffset/10.0f);
 
         camera_turn(&camera);
     }
@@ -316,7 +318,6 @@ int main()
 
     mat scale = mat_scaling(&arena, 2.0f);
     mat proj = mat_projection(&arena, F, N, T, R);
-    // mat trans = mat_translation(&arena, 0.0f, 0.0f, -3.0f);
     
     while (!glfwWindowShouldClose(window)) {
         double x, y;
@@ -324,8 +325,15 @@ int main()
         size_t checkpoint = arena.count;
                 
         mat view = mat_look_at(&arena, &camera.eye, &camera.center, &camera.up);
-        mat tmp = mdyn_mul(&arena, proj, view);
-        tmp = mdyn_mul(&arena, tmp, scale);
+        mat tmp = mdyn_mul(
+                    &arena,
+                    proj, 
+                    mdyn_mul(
+                        &arena,
+                        view,
+                        scale
+                    )
+                );
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(program);
